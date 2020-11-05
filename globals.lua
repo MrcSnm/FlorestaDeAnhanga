@@ -1,0 +1,1 @@
+GAME_MAP_NAME = "assets/maps/main_map.lua"
