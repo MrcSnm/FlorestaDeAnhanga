@@ -1,3 +1,6 @@
 [submodule "external/simple_tiled_implementation"]
 	path = external/simple_tiled_implementation
 	url = https://github.com/karai17/Simple-Tiled-Implementation
+[submodule "external/Talkies"]
+	path = external/Talkies
+	url = https://github.com/tanema/talkies
