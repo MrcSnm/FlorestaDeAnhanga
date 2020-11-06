@@ -27,10 +27,20 @@ function Animation:initialize(frames)
     self.isLooping = true
     self.isPingPong = false
 
+    local isFramesList = frames[1][1] ~= nil
 
-    for _, v in ipairs(frames) do
-        self:addFrame(v)
+    if isFramesList then
+        for _, v in ipairs(frames) do
+            for __, v2 in ipairs(v) do
+                self:addFrame(v2)
+            end
+        end
+    else
+        for _, v in ipairs(frames) do
+            self:addFrame(v)
+        end
     end
+    
 end
 
 function Animation:setReferenceTexture(refTex)

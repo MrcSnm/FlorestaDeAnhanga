@@ -1,6 +1,7 @@
 -- Externals
 sti = require "external.simple_tiled_implementation.sti"
 Talkies = require "external.Talkies.talkies"
+gamera = require "external.gamera.gamera"
 Class = require "external.middleclass.middleclass"
 
 
@@ -18,6 +19,7 @@ require "shared.graphics.AnimatedSprite" --Provides base implementation for play
 require "shared.sti.sti_help" --Provides sti help for finding objs
 require "shared.sti.STI_Object" --Provides sti base class for objects
 require "shared.sti.STI_SpriteObject" --Provides sti class for sprites
+require "shared.sti.STI_AnimatedSpriteObject" --Provides sti class for sprites
 
 --Others
 require "shared.default"

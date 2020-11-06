@@ -62,7 +62,7 @@ end
 --Names array
 function spritesheetToFrames_RPGMaker(spritesheet, columns, frameNamesList, speed)
     
-    local rpg
+    local rpg = {}
     for i = 1, #frameNamesList do
 
         local currFrame = 
@@ -81,7 +81,6 @@ function spritesheetToFrames_RPGMaker(spritesheet, columns, frameNamesList, spee
         end
         table.insert(rpg, currFrame)
     end
-
 
     return rpg
 end

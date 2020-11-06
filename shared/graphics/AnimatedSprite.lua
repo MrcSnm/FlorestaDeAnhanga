@@ -2,14 +2,14 @@ AnimatedSprite = Class("AnimatedSprite", Sprite)
 
 
 function AnimatedSprite:initialize(frames)
-    Sprite.initialize()
+    Sprite.initialize(self)
     self.anim = Animation(frames)
 end
 --Sets the frame too
 function AnimatedSprite:update(dt)
     self.anim:update(dt) 
 
-    local frame = self:getCurrentFrame()
+    self.currentQuad = self:getCurrentFrame()
     self.currentTexture = self.currentAnim.texture
 end
 function AnimatedSprite:stop(restart)

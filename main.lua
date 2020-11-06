@@ -5,12 +5,6 @@ function love.load()
 
     player = Player(GAME_MAP, "Player")
     love.graphics.setDefaultFilter('nearest', 'nearest')
-    push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT,
-    {
-        vsync = true,
-        resizable = true,
-        fullscreen = false  
-    })
 
     global_init()
     
@@ -27,6 +21,9 @@ end
 
 function love.keypressed(key)
     global_keypress(key)
+    --if(key == "right") then
+      --  Camera:setPosition(Camera.x+10, Camera.y)
+    --end
 end
 
 
@@ -38,14 +35,13 @@ function love.update(dt)
 end
 
 function love.resize(w,h)
-    push:resize(w,h)
+    --push:resize(w,h)
 end
 
 function love.draw()
-    push:start()
-        GAME_MAP:draw() --Currently only ground level 
---        player:draw()
-        global_draw_overlay()
-    push:finish()
+
+    GAME_MAP:draw() --Currently only ground level 
+    player:draw()
+    global_draw_overlay()
 
 end
