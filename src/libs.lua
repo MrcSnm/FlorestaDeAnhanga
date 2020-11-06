@@ -1,7 +1,7 @@
 -- Externals
 sti = require "external.simple_tiled_implementation.sti"
 Talkies = require "external.Talkies.talkies"
-gamera = require "external.gamera.gamera"
+Camera = require "external.hump.camera"
 Class = require "external.middleclass.middleclass"
 
 

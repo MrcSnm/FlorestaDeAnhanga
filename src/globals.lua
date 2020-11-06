@@ -42,10 +42,19 @@ function global_update(dt)
 end
 
 function global_keypress(key)
+    love.keyboard.keysPressed[key] = true
     if key == "space" then Talkies.onAction()
     elseif key == "up" then Talkies.prevOption()
     elseif key == "down" then Talkies.nextOption()
     end
+end
+
+function love.keyboard.wasPressed(key)
+    return love.keyboard.keysPressed[key] == true
+end
+
+function global_keyup(key)
+    love.keyboard.keysPressed[key] = false
 end
 
 

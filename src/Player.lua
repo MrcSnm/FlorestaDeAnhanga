@@ -8,7 +8,14 @@ function Player:initialize(map)
         spritesheetToFrames_RPGMaker(self.deerSprite, 3, {"deer_up", "deer_right", "deer_down", "deer_left"}, 12),
         spritesheetToFrames_RPGMaker(self.humanSprite, 3, {"human_down", "human_left", "human_right", "human_up"}, 12)
     })
-    self.isDeer = true  
+    self.isDeer = true
+    self:loopPlay("deer_up")
+
+end
+
+function Player:update(dt)
+
+    STI_AnimatedSpriteObject.update(self, dt)
 
 end
 
@@ -16,10 +23,9 @@ end
 function Player:draw()
 
     if self.isDeer then
-        self.currentTexture = self.humanSprite
+        self.currentTexture = self.deerSprite.texture
     else
-        self.currentTexture = self.humanSprite
+        self.currentTexture = self.humanSprite.texture
     end
-
-    Sprite.draw(self)
+    STI_AnimatedSpriteObject.draw(self)
 end

@@ -7,10 +7,10 @@ function AnimatedSprite:initialize(frames)
 end
 --Sets the frame too
 function AnimatedSprite:update(dt)
-    self.anim:update(dt) 
+    self.anim:update(dt)
 
-    self.currentQuad = self:getCurrentFrame()
-    self.currentTexture = self.currentAnim.texture
+    self.currentQuad = self.anim:getCurrentFrame()
+    self.currentTexture = self.anim.currentAnim.texture
 end
 function AnimatedSprite:stop(restart)
     self.anim:stop(restart)

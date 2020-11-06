@@ -6,6 +6,8 @@ function Sprite:initialize()
     self.x = 0
     self.y = 0
     self.rotation = 0
+    self.opacity = 1
+    self.visible = true
     self.scaleX = 1
     self.scaleY = 1
     self.originX = 0.5
@@ -55,8 +57,22 @@ end
 function Sprite:isVisible() return self.visible end
 
 
+local function manageOpacity(sprite)
+    local r, g, b, a = love.graphics.getColor()
+
+    local hasChange = false
+    if(a ~= sprite.opacity) then
+        love.graphics.setColor(r,g,b, sprite.opacity)
+        hasChange = true
+    end
+
+    return hasChange, r, g, b, sprite.opacity
+end
+
 function Sprite:draw()
     if self.visible and self.opacity > 0 and self.currentTexture ~= nil then
+
+        local hasChange, r, g, b, a = manageOpacity(self)
         if self.currentQuad ~= nil then
             love.graphics.draw(
                 self.currentTexture,
@@ -74,6 +90,10 @@ function Sprite:draw()
                 self.scaleX, self.scaleY,
                 self.originX, self.originY
             )
+        end
+        
+        if hasChange then
+            love.graphics.setColor(r,g,b,a)
         end
     end
 end
