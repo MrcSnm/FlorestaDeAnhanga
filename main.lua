@@ -8,7 +8,7 @@ function love.load()
 
 
     CAMERA = Camera(player.x, player.y)
-    CAMERA:zoom(1)
+    CAMERA:zoom(2)
 
     global_init()
 

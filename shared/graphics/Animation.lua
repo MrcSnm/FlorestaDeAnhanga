@@ -5,6 +5,7 @@ Animation.static.frame_config =
     name = "",
     speed = -1, -- -1 = defaultValue
     frames = {},
+    idleFrames = {},
     texture = nil
 }
 
@@ -92,6 +93,10 @@ function Animation:stop(restart)
     if(restart) then
         self._time = 0
     end
+end
+
+function Animation:goToIdle(restart)
+    --Animation:play()
 end
 
 function Animation:update(dt)

@@ -55,7 +55,7 @@ function getQuadSize(quad)
 end
 
 function generateSpritesheet(texture, lines, columns)
-    return generateSpritesheetTiles(texture, texture:getWidth() / lines, texture:getHeight() / columns, 0, 0)
+    return generateSpritesheetTiles(texture, texture:getWidth() / columns, texture:getHeight() / lines, 0, 0)
 end
 
 
@@ -73,7 +73,7 @@ function spritesheetToFrames_RPGMaker(spritesheet, columns, frameNamesList, spee
             texture = spritesheet.texture
         }
         local cCount = 0
-        local start = columns*i -1 --Spritesheets starts on 0
+        local start = columns*(i-1) --Spritesheets starts on 0
 
         while cCount < columns do
             table.insert(currFrame.frames, spritesheet.frames[start+cCount])
