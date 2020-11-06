@@ -4,3 +4,6 @@
 [submodule "external/Talkies"]
 	path = external/Talkies
 	url = https://github.com/tanema/talkies
+[submodule "external/middleclass"]
+	path = external/middleclass
+	url = https://github.com/kikito/middleclass.git

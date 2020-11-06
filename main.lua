@@ -3,9 +3,8 @@ require "src.libs"
 function love.load()
     GAME_MAP = sti(GAME_MAP_NAME)
 
-    player = findObject(GAME_MAP, "Player")
+    player = Player(GAME_MAP, "Player")
     love.graphics.setDefaultFilter('nearest', 'nearest')
-    math.randomseed(os.time())
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT,
     {
         vsync = true,
@@ -13,9 +12,8 @@ function love.load()
         fullscreen = false  
     })
 
-    love.keyboard.keysPressed = {} 
-    love.mouse.hasBeenPressed = false
-
+    global_init()
+    
 end
 
 function love.mousepressed(x, y, button)
@@ -27,9 +25,15 @@ function love.mouse.wasPressed()
 end
 
 
-function love.update(dt)
+function love.keypressed(key)
+    global_keypress(key)
+end
 
+
+function love.update(dt)
     GAME_MAP:update(dt)
+    global_update(dt)
+
 
 end
 
@@ -38,7 +42,9 @@ function love.resize(w,h)
 end
 
 function love.draw()
-
-    GAME_MAP:draw()
+    push:start()
+        GAME_MAP:draw() --Currently only ground level 
+        global_draw_overlay()
+    push:finish()
 
 end
