@@ -58,6 +58,35 @@ function generateSpritesheet(texture, lines, columns)
     return generateSpritesheetTiles(texture, texture:getWidth() / lines, texture:getHeight() / columns, 0, 0)
 end
 
+
+--Names array
+function spritesheetToFrames_RPGMaker(spritesheet, columns, frameNamesList, speed)
+    
+    local rpg
+    for i = 1, #frameNamesList do
+
+        local currFrame = 
+        {
+            name = frameNamesList[i],
+            speed = speed,
+            frames = {},
+            texture = spritesheet.texture
+        }
+        local cCount = 0
+        local start = columns*i -1 --Spritesheets starts on 0
+
+        while cCount < columns do
+            table.insert(currFrame.frames, spritesheet.frames[start+cCount])
+            cCount = cCount + 1
+        end
+        table.insert(rpg, currFrame)
+    end
+
+
+    return rpg
+end
+
+
 function string.split(string, pattern)
     local ret = {}
     for g in string.gmatch(string, pattern) do

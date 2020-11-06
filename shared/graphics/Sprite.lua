@@ -2,6 +2,7 @@ Sprite = Class"Sprite"
 
 function Sprite:initialize()
     self.currentTexture = nil
+    self.currentQuad = nil
     self.x = 0
     self.y = 0
     self.rotation = 0
@@ -9,6 +10,10 @@ function Sprite:initialize()
     self.scaleY = 1
     self.originX = 0.5
     self.originY = 0.5
+end
+
+function Sprite:setQuad(quad)
+    self.currentQuad = quad
 end
 
 function Sprite:setRotationDegrees(degree)
@@ -52,13 +57,23 @@ function Sprite:isVisible() return self.visible end
 
 function Sprite:draw()
     if self.visible and self.opacity > 0 and self.currentTexture ~= nil then
-        love.graphics.draw
-        (
-            self.currentTexture,
-            self.x, self.y, 
-            self.rotation,
-            self.scaleX, self.scaleY,
-            self.originX, self.originY
-        )
+        if self.currentQuad ~= nil then
+            love.graphics.draw(
+                self.currentTexture,
+                self.currentQuad,
+                self.x, self.y,
+                self.rotation,
+                self.scaleX, self.scaleY,
+                self.originX, self.originY
+            )
+        else
+            love.graphics.draw(
+                self.currentTexture,
+                self.x, self.y,
+                self.rotation,
+                self.scaleX, self.scaleY,
+                self.originX, self.originY
+            )
+        end
     end
 end

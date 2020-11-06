@@ -9,12 +9,15 @@ Class = require "external.middleclass.middleclass"
 --The 'Class' will be ignored for now, testing new class library
 -- Class = require "shared.class" --Global dependency for every implementation
 
+--Graphics
+require "shared.graphics.Animation" --Provides base implementation for playing with sprites
+require "shared.graphics.Sprite"
+require "shared.graphics.AnimatedSprite" --Provides base implementation for playing with sprites
+
 --Sti
 require "shared.sti.sti_help" --Provides sti help for finding objs
 require "shared.sti.STI_Object" --Provides sti base class for objects
-
---Graphics
-require "shared.graphics.AnimatedSprite" --Provides base implementation for playing with sprites
+require "shared.sti.STI_SpriteObject" --Provides sti class for sprites
 
 --Others
 require "shared.default"
