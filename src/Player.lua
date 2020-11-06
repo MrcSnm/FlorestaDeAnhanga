@@ -10,5 +10,10 @@ end
 
 
 function Player:draw()
-    love.graphics.draw()
+
+    if self.isDeer then
+        love.graphics.draw(self.humanSprite, self.x, self.y)
+    else
+        love.graphics.draw(self.humanSprite, self.x, self.y)
+    end
 end

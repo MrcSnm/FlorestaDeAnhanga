@@ -13,6 +13,9 @@ Class = require "external.middleclass.middleclass"
 require "shared.sti.sti_help" --Provides sti help for finding objs
 require "shared.sti.STI_Object" --Provides sti base class for objects
 
+--Graphics
+require "shared.graphics.AnimatedSprite" --Provides base implementation for playing with sprites
+
 --Others
 require "shared.default"
 require "shared.Assets"

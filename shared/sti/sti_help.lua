@@ -1,10 +1,11 @@
 function findObject(map, objName)
     local obj = nil
-    for k, _obj in pairs(map.objects) do
-        if (_obj.name == objName) then
-            obj = _obj;
-            break;
+    for k, object in pairs(map.objects) do
+        if object.name == objName then
+            obj = object
+            break
         end
     end
+
     return obj
 end

@@ -1,0 +1,1 @@
+AnimatedSprite = Class("AnimatedSprite", Animation)

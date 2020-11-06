@@ -44,6 +44,7 @@ end
 function love.draw()
     push:start()
         GAME_MAP:draw() --Currently only ground level 
+        player:draw()
         global_draw_overlay()
     push:finish()
 
