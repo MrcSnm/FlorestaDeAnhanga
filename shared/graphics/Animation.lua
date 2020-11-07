@@ -5,7 +5,6 @@ Animation.static.frame_config =
     name = "",
     speed = -1, -- -1 = defaultValue
     frames = {},
-    idleFrames = {},
     texture = nil
 }
 
@@ -69,6 +68,7 @@ function Animation:play(animName, restart)
     self.currentAnim = self.anims[animName]
     self.isLooping = false
     self.isPingPong = false
+    self.isRunning = true
 
     if restart then
         self._time = 0
@@ -95,8 +95,11 @@ function Animation:stop(restart)
     end
 end
 
-function Animation:goToIdle(restart)
-    --Animation:play()
+function Animation:stopAtFrame(frameNumber)
+    self:stop(true)
+    assert(frameNumber >= 1, "Frame number is too small for animation '"..self.currentAnim.name.."'")
+    assert(frameNumber <= #self.currentAnim.frames, "Frame number is too great for animation '"..self.currentAnim.name.."'")
+    self.frameNumber = frameNumber
 end
 
 function Animation:update(dt)

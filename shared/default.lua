@@ -19,11 +19,10 @@ function setColor(r,g,b,a)
     if a == nil then a = 255 end
     love.graphics.setColor(r / 255,g / 255,b / 255, a / 255)
 end
+function generateSpritesheetSized(texture, tileWidth, tileHeight, maxWidth, maxHeight, offsetX, offsetY)
 
-function generateSpritesheetTiles(texture, tileWidth, tileHeight, offsetX, offsetY)
-
-    local height = texture:getHeight()
-    local width = texture:getWidth()
+    local width = maxWidth
+    local height = maxHeight
     local frameWid = tileWidth
     local frameHei =tileHeight
 
@@ -39,14 +38,25 @@ function generateSpritesheetTiles(texture, tileWidth, tileHeight, offsetX, offse
         frames = {}        
     }
 
-    local frame = 0
-    for y = 0, height - frameHei, frameHei do
-        for x = 0, width - frameWid, frameWid do
-            spriteSheet.frames[frame] = love.graphics.newQuad(x + offsetX, y + offsetY, frameWid, frameHei, texture:getDimensions())
+    
+    local frame = 1
+    for y = offsetY, height - frameHei + offsetY, frameHei do
+        for x = offsetX, width - frameWid + offsetX, frameWid do
+            spriteSheet.frames[frame] = love.graphics.newQuad(x, y, frameWid, frameHei, texture:getDimensions())
             frame = frame + 1
         end
     end
     return spriteSheet
+end
+
+
+function generateSpritesheetTiles(texture, tileWidth, tileHeight, offsetX, offsetY)
+    return generateSpritesheetSized(
+        texture, 
+        tileWidth, tileHeight,
+        texture:getWidth(), texture:getHeight(),
+        offsetX, offsetY
+    )
 end
 
 function getQuadSize(quad)
@@ -61,7 +71,6 @@ end
 
 --Names array
 function spritesheetToFrames_RPGMaker(spritesheet, columns, frameNamesList, speed)
-    
     local rpg = {}
     for i = 1, #frameNamesList do
 
@@ -72,10 +81,10 @@ function spritesheetToFrames_RPGMaker(spritesheet, columns, frameNamesList, spee
             frames = {},
             texture = spritesheet.texture
         }
-        local cCount = 0
+        local cCount = 1
         local start = columns*(i-1) --Spritesheets starts on 0
 
-        while cCount < columns do
+        while cCount <= columns do
             table.insert(currFrame.frames, spritesheet.frames[start+cCount])
             cCount = cCount + 1
         end

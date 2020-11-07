@@ -15,6 +15,9 @@ end
 function AnimatedSprite:stop(restart)
     self.anim:stop(restart)
 end
+function AnimatedSprite:stopAtFrame(frameNum)
+    self.anim:stopAtFrame(frameNum)
+end
 function AnimatedSprite:pingPongPlay(animName, restart)
     self.anim:pingPongPlay(animName, restart)
 end

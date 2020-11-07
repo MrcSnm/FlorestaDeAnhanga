@@ -3,12 +3,13 @@ require "src.libs"
 function love.load()
     GAME_MAP = sti(GAME_MAP_NAME)
 
-    player = Player(GAME_MAP, "Player")
+    CAMERA = Camera(0,0)
+    player = Player(GAME_MAP, CAMERA)
+
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
 
-    CAMERA = Camera(player.x, player.y)
-    CAMERA:zoom(2)
+    CAMERA:zoom(1)
 
     global_init()
 
