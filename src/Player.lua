@@ -25,6 +25,7 @@ function Player:initialize(map, camera)
     self.speed = 250
     self.isDeer = true
     self.isStill = true
+    self.isCameraFollowing = true
     self:loopPlay("deer_down")
 
     self.transformCooldown = 1
@@ -32,6 +33,8 @@ function Player:initialize(map, camera)
 
     self.currentMovement = "down"
     self.camera = camera
+
+    camera.smoother = Camera.smooth.damped(5)
     camera:lookAt(self.x, self.y)
 
 end
@@ -80,22 +83,27 @@ function Player:alternateForm()
         self.speed = 150
     end
     self.currentCooldown = 0
+    self:reset()
+    self:play("human_"..self.currentMovement, true)
 end
 
 function Player:update(dt)
     STI_AnimatedSpriteObject.update(self, dt)
     self:input(dt)
+    if self.isCameraFollowing then
+        --self.camera:move(self.x - self.camera.x, self.y - self.camera.y)
+        self.camera:lockX(self.x)
+        self.camera:lockY(self.y)
+    end
 end
 
 
 function Player:draw()
-
     if self.isDeer then
         if self.isStill then
-            self:play("deer_"..self.currentMovement.."_i", true)
-            --print("deer_"..self.currentMovement.."_i")
+            self:play("deer_"..self.currentMovement.."_i")
         else
-            self:loopPlay("deer_"..self.currentMovement, false)
+            self:loopPlay("deer_"..self.currentMovement)
         end
     else
         if self.isStill then

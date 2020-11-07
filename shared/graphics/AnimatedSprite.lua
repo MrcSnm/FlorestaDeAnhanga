@@ -15,6 +15,9 @@ end
 function AnimatedSprite:stop(restart)
     self.anim:stop(restart)
 end
+function AnimatedSprite:reset()
+    self.anim:stop()
+end
 function AnimatedSprite:stopAtFrame(frameNum)
     self.anim:stopAtFrame(frameNum)
 end

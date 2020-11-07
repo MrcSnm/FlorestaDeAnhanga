@@ -9,7 +9,7 @@ function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
 
-    CAMERA:zoom(1)
+    CAMERA:zoom(2)
 
     global_init()
 

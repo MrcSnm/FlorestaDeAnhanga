@@ -5,7 +5,10 @@ Animation.static.frame_config =
     name = "",
     speed = -1, -- -1 = defaultValue
     frames = {},
-    texture = nil
+    texture = nil,
+    --Callbacks
+    onStart = nil,
+    onFinish = nil
 }
 
 
@@ -64,24 +67,36 @@ function Animation:addFrame(frame)
 end
 
 
-function Animation:play(animName, restart)
+--Ignore if same is defaullt
+function Animation:play(animName, ignoreIfSame)
+    if ignoreIfSame == nil then ignoreIfSame = true end
+    if ignoreIfSame and self.currentAnim.name == animName then
+        return
+    end
+
+    self:reset()
     self.currentAnim = self.anims[animName]
     self.isLooping = false
     self.isPingPong = false
     self.isRunning = true
-
-    if restart then
-        self._time = 0
-        self.frameNumber = 1
-    end
 end
 
-function Animation:loopPlay(animName, restart)
-    self:play(animName, restart)
+
+function Animation:reset()
+    self.isLooping = false
+    self.isPingPong = false
+    self.isRunning = false
+    self._time = 0
+    self.frameNumber = 1
+    self._pingPongDir = 1
+end
+
+function Animation:loopPlay(animName, ignoreIfSame)
+    self:play(animName, ignoreIfSame)
     self.isLooping = true
 end
-function Animation:pingPongPlay(animName, restart)
-    self:play(animName, restart)
+function Animation:pingPongPlay(animName, ignoreIfSame)
+    self:play(animName, ignoreIfSame)
     self.isPingPong = true
     if restart then
         self._pingPongDir = 1
@@ -91,7 +106,7 @@ end
 function Animation:stop(restart)
     self.isRunning = false
     if(restart) then
-        self._time = 0
+        self:reset()
     end
 end
 
