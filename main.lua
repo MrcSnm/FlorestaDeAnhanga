@@ -8,6 +8,8 @@ function love.load()
 
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
+    DAY_NIGHT_SHADER = DayNightShader()
+
 
     CAMERA:zoom(2)
 
@@ -27,7 +29,6 @@ end
 
 function love.keypressed(key)
     global_keypress(key)
-    
 end
 
 function love.keyreleased(key)
@@ -62,11 +63,12 @@ end
 
 function love.draw()
 
-    GAME_MAP:draw(-CAMERA.x, -CAMERA.y, CAMERA.scale, CAMERA.scale) --Currently only ground level 
-
-    CAMERA:attach()
-        player:draw()
-    CAMERA:detach()
+    DAY_NIGHT_SHADER:draw(function()
+        GAME_MAP:draw(-CAMERA.x, -CAMERA.y, CAMERA.scale, CAMERA.scale) --Currently only ground level 
+        CAMERA:attach()
+            player:draw()
+        CAMERA:detach()
+    end)
 
     global_draw_overlay()
 

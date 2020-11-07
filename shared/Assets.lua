@@ -5,7 +5,8 @@ Assets =
     imagePath = "images",
     sfxPath = "sfx",
     musicPath = "musics",
-    _sfxs={},_musics={},_images={},_sprites={},
+    shaderPath = "shaders",
+    _sfxs={},_musics={},_images={},_sprites={}, _shaders={},
 
     getSfx = function(sfxName)
         local str = Assets.path.."/"..Assets.sfxPath.."/"..sfxName
@@ -37,6 +38,14 @@ Assets =
             Assets._sprites[str] = love.graphics.newImage(str)
         end
         return  Assets._sprites[str];
+    end,
+
+    getShader = function(shaderName)
+        local str = Assets.path.."/"..Assets.shaderPath.."/"..shaderName
+        if(Assets._shaders[str] == nil) then
+            Assets._shaders[str] = love.graphics.newShader(str)
+        end
+        return  Assets._shaders[str];
     end,
 
     _imgs = {}

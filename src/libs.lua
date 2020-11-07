@@ -32,3 +32,5 @@ require "shared.slam"
 --Sources
 require "src.globals"
 require "src.Player"
+
+require "src.shaders.DayNightShader"

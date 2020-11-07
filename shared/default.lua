@@ -123,3 +123,8 @@ function table.swap(table, first, second)
     table[first] = table[second]
     table[second] = buf
 end
+
+function isInRange(left, right, n)
+
+    return n>= left and n <= right
+end
