@@ -1,7 +1,10 @@
 
+//Day-Night cycle
 extern vec4 COLOR_MIX; //Will be the precalculated lerp
 extern vec3 CONSTRAST_BRIGHTNESS_SATURATION;
 extern vec2 HIGHLIGHT;
+
+const float eyeThreshold = 250/255;
 
 #define CONTRAST CONSTRAST_BRIGHTNESS_SATURATION.x
 #define BRIGHTNESS CONSTRAST_BRIGHTNESS_SATURATION.y
@@ -14,10 +17,10 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
 {
     vec4 pixel = Texel(texture, texture_coords);
 
-
     //Makes the red eye appears
-    if(pixel.r >= 250/255 && pixel.g == 0 && pixel.b == 0)
+    if(pixel.r >= eyeThreshold && pixel.g == 0 && pixel.b == 0)
         return vec4(1,0,0,1);
+
 
     vec3 out_col = pixel.rgb;
     float grey = dot(out_col, vec3(0.299, 0.587, 0.114));
@@ -34,5 +37,8 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
     out_col = out_col + BRIGHTNESS;
     
     pixel = pixel*vec4(out_col, 1);
-    return pixel*COLOR_MIX*color;
+    
+
+
+    return pixel*COLOR_MIX*color; 
 }
