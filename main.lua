@@ -1,12 +1,12 @@
 require "src.libs"
 
 function love.load()
+    love.graphics.setDefaultFilter('nearest', 'nearest')
     GAME_MAP = sti(GAME_MAP_NAME)
 
     CAMERA = Camera(0,0)
     player = Player(GAME_MAP, CAMERA)
 
-    love.graphics.setDefaultFilter('nearest', 'nearest')
 
     DAY_NIGHT_SHADER = DayNightShader()
 

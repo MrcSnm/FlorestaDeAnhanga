@@ -65,20 +65,20 @@ function DayNightShader:setColors()
     --Send premixed colors
     self.shader:send("COLOR_MIX", colorLerp4(self.keyTimes[self.firstColor], self.keyTimes[self.secondColor], ratio))
     self.shader:send("CONSTRAST_BRIGHTNESS_SATURATION", colorLerp3(self.keyTimesCBS[self.firstColor], self.keyTimesCBS[self.secondColor], ratio))
-    self.shader:send("IGNORE_RED_EYE", {254/255, 0, 0})
 
 end
 
 
 function DayNightShader:draw(drawFunc)
     
-    --love.graphics.setCanvas(self.canvas)
     self.time = self.time + 0.05
     self:setColors()
-    love.graphics.setShader(self.shader)
-    drawFunc()
-    --love.graphics.setCanvas()
-    --love.graphics.draw(self.canvas)
-    love.graphics.setShader()
+    love.graphics.setCanvas(self.framebuffer)
+        drawFunc()
+    love.graphics.setCanvas()
+
+   love.graphics.setShader(self.shader)
+        love.graphics.draw(self.framebuffer)
+   love.graphics.setShader()
 
 end
