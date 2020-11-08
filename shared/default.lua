@@ -64,6 +64,18 @@ function getQuadSize(quad)
     return {width = tempW, height = tempH}
 end
 
+function lerp(val1, val2, ratio)
+    return val1*(1-ratio)+val2*ratio
+end
+
+function colorLerp3(c1, c2, ratio)
+    return {lerp(c1[1], c2[1], ratio), lerp(c1[2], c2[2], ratio), lerp(c1[3], c2[3], ratio)}
+end
+
+function colorLerp4(c1, c2, ratio)
+    return {lerp(c1[1], c2[1], ratio), lerp(c1[2], c2[2], ratio), lerp(c1[3], c2[3], ratio), lerp(c1[4], c2[4], ratio)}
+end
+
 function generateSpritesheet(texture, lines, columns)
     return generateSpritesheetTiles(texture, texture:getWidth() / columns, texture:getHeight() / lines, 0, 0)
 end
