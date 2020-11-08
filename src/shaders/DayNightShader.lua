@@ -10,19 +10,25 @@ function DayNightShader:initialize()
 
 
 
-    self.midnightColor =        {0.05,0.3,0.8,1}
-    self.earlyMorningColor =    {0.95,0.9,0.8,1}
+    self.midnightColor =        {0.05,0.2,0.5,1}
+    self.earlyMorningColor =    {0.95,0.9,0.85,1}
     self.lateAfternoonColor =   {0.85,0.8,0.9,1}
 
     --Contrast, saturation and brightness
 
-    self.midnightCBS =      {0.70,  0.9,    0.0}
+    self.midnightCBS =      {0.40,  0.6,    0.0}
     self.earlyMorningCBS =  {1.10,  0.9,    0.1}
     self.lateAfternoonCBS = {1.40,  1.1,   0.05}
+
+    --Highlight strength and highlight threshold
+    self.midnightHighlight =        {5.5, 0.5}
+    self.earlyMorningHighlight =    {0.8,   1}
+    self.lateAfternoonHighlight =   {0.0,   1}
 
 
     self.keyTimes = {}
     self.keyTimesCBS = {}
+    self.keyHighlights = {}
 
     table.insert(self.keyTimes, self.midnightColor)
     table.insert(self.keyTimes, self.earlyMorningColor)
@@ -31,6 +37,11 @@ function DayNightShader:initialize()
     table.insert(self.keyTimesCBS, self.midnightCBS)
     table.insert(self.keyTimesCBS, self.earlyMorningCBS)
     table.insert(self.keyTimesCBS, self.lateAfternoonCBS)
+
+    
+    table.insert(self.keyHighlights, self.midnightHighlight)
+    table.insert(self.keyHighlights, self.earlyMorningHighlight)
+    table.insert(self.keyHighlights, self.lateAfternoonHighlight)
 
 
     self.framebuffer = love.graphics.newCanvas()
@@ -63,9 +74,9 @@ function DayNightShader:setColors()
     self.secondColor = self:getColor(secondTimeToSend)
 
     --Send premixed colors
-    self.shader:send("COLOR_MIX", colorLerp4(self.keyTimes[self.firstColor], self.keyTimes[self.secondColor], ratio))
-    self.shader:send("CONSTRAST_BRIGHTNESS_SATURATION", colorLerp3(self.keyTimesCBS[self.firstColor], self.keyTimesCBS[self.secondColor], ratio))
-
+    self.shader:send("COLOR_MIX", lerp4(self.keyTimes[self.firstColor], self.keyTimes[self.secondColor], ratio))
+    self.shader:send("CONSTRAST_BRIGHTNESS_SATURATION", lerp3(self.keyTimesCBS[self.firstColor], self.keyTimesCBS[self.secondColor], ratio))
+    self.shader:send("HIGHLIGHT", lerp2(self.keyHighlights[self.firstColor], self.keyHighlights[self.secondColor], ratio))
 end
 
 
