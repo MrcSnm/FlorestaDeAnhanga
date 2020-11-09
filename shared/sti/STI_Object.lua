@@ -7,6 +7,6 @@ function STI_Object:initialize(map, name)
     assert(self.objRef ~= nil, "Tiled Object named '"..name.."' not found on map")
     self.name = name
 
-    self.x = self.objRef.y
+    self.x = self.objRef.x
     self.y = self.objRef.y
 end

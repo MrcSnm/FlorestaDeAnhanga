@@ -46,7 +46,5 @@ Assets =
             Assets._shaders[str] = love.graphics.newShader(str)
         end
         return  Assets._shaders[str];
-    end,
-
-    _imgs = {}
+    end
 }

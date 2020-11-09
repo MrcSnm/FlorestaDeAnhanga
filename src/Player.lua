@@ -1,4 +1,4 @@
-Player = Class("Player_i", STI_AnimatedSpriteObject)
+Player = Class("Player", STI_AnimatedSpriteObject)
 
 function Player:initialize(map, camera)
     self.deerSpriteCommon = generateSpritesheetSized(Assets.getSprite("Anhangua.png"), 32, 32,
@@ -6,12 +6,6 @@ function Player:initialize(map, camera)
 
     self.deerSpriteIdle = generateSpritesheetSized(Assets.getSprite("Anhangua.png"), 32, 32,
     32, 32*4, 32*3,0)
-
-
-    for k, v in pairs(self.deerSpriteIdle.frames) do
-        print(v:getViewport())
-    end
-
 
     self.humanSprite = generateSpritesheet(Assets.getSprite("Anhangua_Human.png"), 4, 3)
 
@@ -34,8 +28,19 @@ function Player:initialize(map, camera)
     self.currentMovement = "down"
     self.camera = camera
 
+
     camera.smoother = Camera.smooth.damped(5)
     camera:lookAt(self.x, self.y)
+
+    self.lightSource = {
+        position = {self.x, self.y},
+        diffuse = {1,1,1, 1},
+        power = 100,
+        falloff = 1,
+        minThreshold = 1, --If lesser, color = power
+        maxThreshold = 3000 --If higher, color = 0
+    }
+
 
 end
 
@@ -55,6 +60,12 @@ function Player:input(dt)
     elseif love.keyboard.wasPressed("d") then
         moveX = self.speed
         self.currentMovement = "right"
+    end
+
+    if love.keyboard.wasPressed("up") then
+        self.lightSource.power = self.lightSource.power + 0.01
+    elseif love.keyboard.wasPressed("down") then
+        self.lightSource.power = self.lightSource.power - 0.01
     end
 
 
@@ -95,6 +106,9 @@ function Player:update(dt)
         self.camera:lockX(self.x)
         self.camera:lockY(self.y)
     end
+    self.lightSource.position[1] = self.x + love.graphics.getWidth()/2 + 16 --Half screen + half size
+    self.lightSource.position[2] = self.y + love.graphics.getHeight()/2 + 16 --Half screen + half size
+
 end
 
 

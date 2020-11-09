@@ -21,6 +21,9 @@ require "shared.sti.STI_Object" --Provides sti base class for objects
 require "shared.sti.STI_SpriteObject" --Provides sti class for sprites
 require "shared.sti.STI_AnimatedSpriteObject" --Provides sti class for sprites
 
+--Hump
+require "shared.hump.camera_extra"
+
 --Others
 require "shared.default"
 require "shared.Assets"
@@ -34,3 +37,4 @@ require "src.globals"
 require "src.Player"
 
 require "src.shaders.DayNightShader"
+require "src.shaders.LightingShader"

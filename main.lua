@@ -9,11 +9,17 @@ function love.load()
 
 
     DAY_NIGHT_SHADER = DayNightShader()
+    LIGHTING_SHADER = LightingShader(CAMERA, GAME_MAP)
+    GAME_MAP.layers["objects"].visible = false
 
-
-    CAMERA:zoom(2)
+    LIGHTING_SHADER:addLightSource(player.lightSource)
+    --CAMERA:zoom(2)
 
     global_init()
+
+    player.x = player.x - love.graphics.getWidth() / 2
+    player.y = player.y - love.graphics.getHeight() / 2
+    print(player.x)
 
     
 end
@@ -63,11 +69,14 @@ end
 
 function love.draw()
 
-    DAY_NIGHT_SHADER:draw(function()
-        GAME_MAP:draw(-CAMERA.x, -CAMERA.y, CAMERA.scale, CAMERA.scale) --Currently only ground level 
-        CAMERA:attach()
-            player:draw()
-        CAMERA:detach()
+    LIGHTING_SHADER:draw(function()
+
+        --DAY_NIGHT_SHADER:draw(function()
+           GAME_MAP:draw(-CAMERA.x, -CAMERA.y, CAMERA.scale, CAMERA.scale) --Currently only ground level 
+           CAMERA:attach()
+                player:draw()
+           CAMERA:detach()
+        --end)
     end)
 
     global_draw_overlay()
