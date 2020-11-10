@@ -24,6 +24,10 @@ require "shared.sti.STI_AnimatedSpriteObject" --Provides sti class for sprites
 --Hump
 require "shared.hump.camera_extra"
 
+--Hump X Sti
+
+require "shared.hump_x_sti.hump_x_sti"
+
 --Others
 require "shared.default"
 require "shared.Assets"

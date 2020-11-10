@@ -7,6 +7,7 @@ function DayNightLightShader:initialize(cam, map)
 
     self.shader = Assets.getShader("day_night_light.fs")
     self.daynight.shader = self.shader
+    self.daynight.time = 0
 end
 
 
@@ -17,7 +18,6 @@ end
 
 
 function DayNightLightShader:draw(drawFunc)
-    self.daynight.time = self.daynight.time + 0.05
     self:sendVars()
     love.graphics.setCanvas(self.daynight.framebuffer)
     love.graphics.clear()

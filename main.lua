@@ -11,6 +11,9 @@ function love.load()
     LIGHTING_SHADER = DayNightLightShader(CAMERA, GAME_MAP)
     GAME_MAP.layers["objects"].visible = false
 
+    GAME_MAP_TOP_LAYERS = {}
+    table.insert(GAME_MAP_TOP_LAYERS, separateLayer(GAME_MAP, "trees_top"))
+
     LIGHTING_SHADER:addLightSource(player.lightSource)
     CAMERA:zoom(2)
 
@@ -18,7 +21,6 @@ function love.load()
 
     player.x = player.x - love.graphics.getWidth() / 2
     player.y = player.y - love.graphics.getHeight() / 2
-    print(player.x)
 
     
 end
@@ -69,13 +71,12 @@ end
 function love.draw()
 
     LIGHTING_SHADER:draw(function()
+        GAME_MAP:draw(-CAMERA.x, -CAMERA.y, CAMERA.scale, CAMERA.scale) --Currently only ground level 
+        CAMERA:attach()
+            player:draw()
+        CAMERA:detach()
 
-        --DAY_NIGHT_SHADER:draw(function()
-           GAME_MAP:draw(-CAMERA.x, -CAMERA.y, CAMERA.scale, CAMERA.scale) --Currently only ground level 
-           CAMERA:attach()
-                player:draw()
-           CAMERA:detach()
-        --end)
+        hump_x_sti_renderTopLayers(GAME_MAP_TOP_LAYERS, GAME_MAP, CAMERA)
     end)
 
     global_draw_overlay()

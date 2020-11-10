@@ -95,7 +95,6 @@ function Player:alternateForm()
     end
     self.currentCooldown = 0
     self:reset()
-    self:play("human_"..self.currentMovement, true)
 end
 
 function Player:update(dt)
@@ -103,8 +102,8 @@ function Player:update(dt)
     self:input(dt)
     if self.isCameraFollowing then
         --self.camera:move(self.x - self.camera.x, self.y - self.camera.y)
-        self.camera:lockX(self.x)
-        self.camera:lockY(self.y)
+        self.camera:lockX(math.floor(self.x))
+        self.camera:lockY(math.floor(self.y))
     end
     self.lightSource.position[1] = self.x + love.graphics.getWidth()/2 + 16 --Half screen + half size
     self.lightSource.position[2] = self.y + love.graphics.getHeight()/2 + 16 --Half screen + half size
@@ -121,6 +120,8 @@ function Player:draw()
         end
     else
         if self.isStill then
+            self:reset()
+            self:play("human_"..self.currentMovement)
             self:stopAtFrame(2)
         else
             self:pingPongPlay("human_"..self.currentMovement)

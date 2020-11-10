@@ -110,10 +110,19 @@ function Animation:stop(restart)
     end
 end
 
+function Animation:stringifyInfo()
+    return "\nPingPongDir= "..tostring(self._pingPongDir).."\n"..
+            "FrameNumber= "..tostring(self.frameNumber).."\n"..
+            "IsLooping= "..tostring(self.isLooping).."\n"..
+            "IsPingPong="..tostring(self.isPingPong).."\n"..
+            "IsRunning="..tostring(self.isRunning).."\n"..
+            "Time="..tostring(self._time).."\n"
+end
+
 function Animation:stopAtFrame(frameNumber)
     self:stop(true)
-    assert(frameNumber >= 1, "Frame number is too small for animation '"..self.currentAnim.name.."'")
-    assert(frameNumber <= #self.currentAnim.frames, "Frame number is too great for animation '"..self.currentAnim.name.."'")
+    assert(frameNumber >= 1, "Frame number is too small for animation '"..self.currentAnim.name.."'"..self:stringifyInfo())
+    assert(frameNumber <= #self.currentAnim.frames, "Frame number is too great for animation '"..self.currentAnim.name.."'"..self:stringifyInfo())
     self.frameNumber = frameNumber
 end
 
