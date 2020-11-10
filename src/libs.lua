@@ -38,3 +38,4 @@ require "src.Player"
 
 require "src.shaders.DayNightShader"
 require "src.shaders.LightingShader"
+require "src.shaders.DayNightLightShader"

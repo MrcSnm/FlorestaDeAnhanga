@@ -8,12 +8,11 @@ function love.load()
     player = Player(GAME_MAP, CAMERA)
 
 
-    DAY_NIGHT_SHADER = DayNightShader()
-    LIGHTING_SHADER = LightingShader(CAMERA, GAME_MAP)
+    LIGHTING_SHADER = DayNightLightShader(CAMERA, GAME_MAP)
     GAME_MAP.layers["objects"].visible = false
 
     LIGHTING_SHADER:addLightSource(player.lightSource)
-    --CAMERA:zoom(2)
+    CAMERA:zoom(2)
 
     global_init()
 

@@ -47,7 +47,6 @@ function LightingShader:setupVariables()
 
     self.shader:send("CAM_POSITION", {math.floor(self.camera.x), math.floor(self.camera.y)})
     self.shader:send("LIGHTS_COUNT", #self.lightSources)
-    self.shader:send("SCREEN", {self.map.width * self.map.tilewidth, self.map.height * self.map.tileheight})
     for i, v in ipairs(self.lightSources) do
         self:sendLight(v, i-1) --Starts at 0 on C
     end
@@ -55,7 +54,6 @@ end
 
 
 function LightingShader:draw(drawFunction)
-    self:setupVariables()
    -- love.graphics.setCanvas(self.framebuffer)
    love.graphics.setShader(self.shader)
     drawFunction()

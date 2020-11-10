@@ -35,7 +35,7 @@ function Player:initialize(map, camera)
     self.lightSource = {
         position = {self.x, self.y},
         diffuse = {1,1,1, 1},
-        power = 100,
+        power = 50,
         falloff = 1,
         minThreshold = 1, --If lesser, color = power
         maxThreshold = 3000 --If higher, color = 0
