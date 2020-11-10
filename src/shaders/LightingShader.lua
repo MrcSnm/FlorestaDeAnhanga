@@ -45,7 +45,7 @@ end
 --Will firstly check if it is on the camera bounds
 function LightingShader:setupVariables()
 
-    self.shader:send("CAM_POSITION", {math.floor(self.camera.x), math.floor(self.camera.y)})
+    self.shader:send("CAM_POSITION", {self.camera.x, self.camera.y})
     self.shader:send("LIGHTS_COUNT", #self.lightSources)
     for i, v in ipairs(self.lightSources) do
         self:sendLight(v, i-1) --Starts at 0 on C

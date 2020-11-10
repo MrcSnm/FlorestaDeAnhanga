@@ -81,4 +81,7 @@ function love.draw()
 
     global_draw_overlay()
 
+    print(CAMERA.x)
+    print(CAMERA.targetX)
+
 end

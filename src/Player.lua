@@ -28,6 +28,9 @@ function Player:initialize(map, camera)
     self.currentMovement = "down"
     self.camera = camera
 
+    self.map = map
+    self.mapWidth = self.map.width * self.map.tilewidth
+    self.mapHeight = self.map.height * self.map.tileheight
 
     camera.smoother = Camera.smooth.damped(5)
     camera:lookAt(self.x, self.y)
@@ -35,10 +38,10 @@ function Player:initialize(map, camera)
     self.lightSource = {
         position = {self.x, self.y},
         diffuse = {1,1,1, 1},
-        power = 50,
+        power = 4000,
         falloff = 1,
-        minThreshold = 1, --If lesser, color = power
-        maxThreshold = 3000 --If higher, color = 0
+        minThreshold = 20, --If lesser, color = power
+        maxThreshold = 500 --If higher, color = 0
     }
 
 
@@ -62,11 +65,6 @@ function Player:input(dt)
         self.currentMovement = "right"
     end
 
-    if love.keyboard.wasPressed("up") then
-        self.lightSource.power = self.lightSource.power + 0.01
-    elseif love.keyboard.wasPressed("down") then
-        self.lightSource.power = self.lightSource.power - 0.01
-    end
 
 
     if(self.currentCooldown < self.transformCooldown) then
@@ -102,11 +100,15 @@ function Player:update(dt)
     self:input(dt)
     if self.isCameraFollowing then
         --self.camera:move(self.x - self.camera.x, self.y - self.camera.y)
-        self.camera:lockX(math.floor(self.x))
-        self.camera:lockY(math.floor(self.y))
+        if self.x > love.graphics.getWidth()/2 and self.x < self.mapWidth - love.graphics.getWidth()/2 then
+            cam_lockX(self.camera, self.x)
+        end        
+        if self.y > love.graphics.getHeight()/2 and self.y < self.mapHeight - love.graphics.getHeight()/2 then
+            cam_lockY(self.camera, self.y)
+        end
     end
-    self.lightSource.position[1] = self.x + love.graphics.getWidth()/2 + 16 --Half screen + half size
-    self.lightSource.position[2] = self.y + love.graphics.getHeight()/2 + 16 --Half screen + half size
+    self.lightSource.position[1] = self.x + love.graphics.getWidth()/2 --Half screen + half size
+    self.lightSource.position[2] = self.y + love.graphics.getHeight()/2 --Half screen + half size
 
 end
 

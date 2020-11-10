@@ -76,7 +76,7 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
         else if(dist < l.minThreshold)
             lightP = l.power;
         else
-            lightP = l.power/(dist*l.falloff);
+            lightP = l.power/(dist*dist*l.falloff);
 
         diffuse+= l.diffuse*lightP;
     }

@@ -1,5 +1,14 @@
 -- Provides functionalities for hump camera
 
+function cam_lockX(cam, x)
+    cam.targetX = math.floor(x)
+    cam:lockX(cam.targetX)
+end
+
+function cam_lockY(cam, y)
+    cam.targetY = math.floor(y)
+    cam:lockY(cam.targetY)
+end
 
 function cam_getTop(cam, h)
     h = h or love.graphics.getHeight()
