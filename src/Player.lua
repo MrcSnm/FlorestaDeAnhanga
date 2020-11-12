@@ -94,10 +94,10 @@ function Player:input(dt)
     local tempY = self.y + moveY*dt
 
     
-    local _x, _y, cols, len = WORLD:move(self.collider, tempX+lg.quarterWidth, tempY+lg.quarterHeight)
+    local _x, _y, cols, len = WORLD:move(self.collider, tempX+lg.quarterWidth, tempY+lg.quarterHeight+30)
     -- if not checkCollision(self.map, COLLISION_LAYERS, tempX, tempY) then
     self.x = _x-lg.quarterWidth
-    self.y = _y-lg.quarterHeight
+    self.y = _y-lg.quarterHeight-30
 
 end
 

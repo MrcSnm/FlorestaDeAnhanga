@@ -71,7 +71,7 @@ end
 --Ignore if same is defaullt
 function Animation:play(animName, ignoreIfSame)
     if ignoreIfSame == nil then ignoreIfSame = true end
-    if ignoreIfSame and self.currentAnim.name == animName then
+    if ignoreIfSame and self.currentAnim.name == animName and self.isRunning then
         return
     end
 
@@ -92,6 +92,8 @@ function Animation:reset()
     self._pingPongDir = 1
 end
 
+-- A good way to use loopPlay is passing self.isRunning for ignoreIfSame, as if it is not running, 
+--it will restart the animation
 function Animation:loopPlay(animName, ignoreIfSame)
     self:play(animName, ignoreIfSame)
     self.isLooping = true

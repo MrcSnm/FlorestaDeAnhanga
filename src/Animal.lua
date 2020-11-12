@@ -37,11 +37,11 @@ DIRECTIONS =
 ANIMAL_TYPES = 
 {
     --                                Name     Col, Row, Col, Row, TileW, TileH,  Movespeed
-    ["passaro"] = createAnimalType  ("passaro",   3, 4, 4, 2, 48, 48, 200),
-    ["pintinho"] = createAnimalType ("pintinho",  3, 4, 4, 2, 48, 48, 250),
-    ["rato"] = createAnimalType     ("rato",      3, 4, 4, 2, 48, 48, 300),
-    ["sapo"] = createAnimalType     ("sapo",      3, 4, 4, 2, 48, 48, 150),
-    ["tartaruga"] = createAnimalType("tartaruga", 3, 4, 4, 2, 48, 48, 100, 1)
+    ["passaro"] = createAnimalType  ("passaro",   3, 4, 4, 2, 48, 48, 125),
+    ["pintinho"] = createAnimalType ("pintinho",  3, 4, 4, 2, 48, 48, 100),
+    ["rato"] = createAnimalType     ("rato",      3, 4, 4, 2, 48, 48, 150),
+    ["sapo"] = createAnimalType     ("sapo",      3, 4, 4, 2, 48, 48, 75),
+    ["tartaruga"] = createAnimalType("tartaruga", 3, 4, 4, 2, 48, 48, 50, 1)
 }
 
 
@@ -51,6 +51,7 @@ function Animal:initialize(animalType, x, y, colliderName)
     self.palleteChoice = math.random(animalType.palleteSize)
     AnimatedSprite.initialize(self, animalType.frames[self.palleteChoice])
     self.currentDir = -1
+    self.currentMovement = "down"
     self.x = x
     self.y = y
 
@@ -63,7 +64,9 @@ function Animal:initialize(animalType, x, y, colliderName)
 
     
     self.movespeed = animalType.movespeed
-    self.isMoving = false
+    self.isMoving = true
+    self.isStill = false
+    self.stopMoving = false
 
     self:changeDir()
     self:setScale(animalType.scale)
@@ -72,7 +75,7 @@ function Animal:initialize(animalType, x, y, colliderName)
 
     self.changeDirTimer = Timer(Timer.ONE_SHOT, 4,
     function()this:changeDir()end,
-    function() return this.isMoving end)
+    function() return this.stopMoving end)
 
 end
 
@@ -94,33 +97,30 @@ function Animal:walk(dt)
     local dir = self.currentDir
     if dir == DIRECTIONS.UP then
         dy = -self.movespeed
+        self.currentMovement = "up"
     elseif dir == DIRECTIONS.DOWN then
         dy = self.movespeed
+        self.currentMovement = "down"
     elseif dir == DIRECTIONS.LEFT then
         dx = -self.movespeed
+        self.currentMovement = "left"
     else
         dx = self.movespeed
+        self.currentMovement = "right"
     end
 
-    if dx > 0 then
-        self:loopPlay("right")
-    elseif dx < 0 then
-        self:loopPlay("left")
-    elseif dy > 0 then
-        self:loopPlay("down")
-    else
-        self:loopPlay("up")
-    end
-
+    self:loopPlay(self.currentMovement, self.isRunning)
     local tempX = self.x + dx*dt
     local tempY = self.y + dy*dt
-    local nX, nY = self.world:move(self.collider, tempX+lg.quarterWidth,  tempY+lg.quarterHeight)
+    local nX, nY, col, len = self.world:move(self.collider, tempX+lg.quarterWidth,  tempY+lg.quarterHeight+30)
 
+
+    self.isStill = len > 0
     if nX > 0 and nX < self.map.width*self.map.tilewidth then
         self.x = nX-lg.quarterWidth
     end
     if nY > 0 and nY < self.map.height*self.map.tileheight then
-        self.y = nY-lg.quarterHeight
+        self.y = nY-lg.quarterHeight-30
     end
 
 end
@@ -132,6 +132,11 @@ function Animal:update(dt)
 end
 
 function Animal:draw()
+    if self.isStill then
+        self:stopAtFrame(2)
+    else
+        self:loopPlay(self.currentMovement, not self.isRunning)
+    end
     AnimatedSprite.draw(self)
 end
 
