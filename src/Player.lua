@@ -1,4 +1,5 @@
 Player = Class("Player", STI_AnimatedSpriteObject)
+local lg = love.graphics
 
 function Player:initialize(map, camera)
     self.deerSpriteCommon = generateSpritesheetSized(Assets.getSprite("Anhangua.png"), 32, 32,
@@ -93,10 +94,10 @@ function Player:input(dt)
     local tempY = self.y + moveY*dt
 
     
-    local _x, _y, cols, len = WORLD:move(self.collider, tempX+love.graphics.getWidth()/4, tempY+love.graphics.getHeight()/4)
+    local _x, _y, cols, len = WORLD:move(self.collider, tempX+lg.quarterWidth, tempY+lg.quarterHeight)
     -- if not checkCollision(self.map, COLLISION_LAYERS, tempX, tempY) then
-    self.x = _x-love.graphics.getWidth()/4
-    self.y = _y-love.graphics.getHeight()/4
+    self.x = _x-lg.quarterWidth
+    self.y = _y-lg.quarterHeight
 
 end
 

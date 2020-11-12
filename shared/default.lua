@@ -175,3 +175,11 @@ end
 function isInRange(left, right, n)
     return n>= left and n <= right
 end
+
+
+
+
+love.graphics.halfWidth = love.graphics.getWidth()/2
+love.graphics.halfHeight = love.graphics.getHeight()/2
+love.graphics.quarterWidth = love.graphics.getWidth()/4
+love.graphics.quarterHeight = love.graphics.getHeight()/4

@@ -1,4 +1,5 @@
 Animal = Class("Animal", AnimatedSprite)
+local lg = love.graphics
 
 local function createAnimalType(animalType, columns_anim,  rows_anim, columns_types, rows_types, width, height, movespeed, scale)
     local ret = {}
@@ -44,7 +45,7 @@ ANIMAL_TYPES =
 }
 
 
-function Animal:initialize(animalType, x, y)
+function Animal:initialize(animalType, x, y, colliderName)
 
     self.animalType = animalType
     self.palleteChoice = math.random(animalType.palleteSize)
@@ -52,6 +53,15 @@ function Animal:initialize(animalType, x, y)
     self.currentDir = -1
     self.x = x
     self.y = y
+
+    
+    --Just need to finish fastly
+    self.map = GAME_MAP 
+    self.world = WORLD
+    self.collider = {name = colliderName}
+    self:inputCollider()
+
+    
     self.movespeed = animalType.movespeed
     self.isMoving = false
 
@@ -63,10 +73,16 @@ function Animal:initialize(animalType, x, y)
     self.changeDirTimer = Timer(Timer.ONE_SHOT, 4,
     function()this:changeDir()end,
     function() return this.isMoving end)
-    
 
 end
 
+function Animal:inputCollider()
+    self.world:add(self.collider, self.x, self.y, self.map.tilewidth/1.25, self.map.tileheight/1.25)
+end
+
+function Animal:onRemove()
+    self.world:remove(self.collider)
+end
 function Animal:changeDir()
     self.currentDir = math.random(4)
 end
@@ -96,8 +112,16 @@ function Animal:walk(dt)
         self:loopPlay("up")
     end
 
-    self.x = self.x + dx*dt
-    self.y = self.y + dy*dt
+    local tempX = self.x + dx*dt
+    local tempY = self.y + dy*dt
+    local nX, nY = self.world:move(self.collider, tempX+lg.quarterWidth,  tempY+lg.quarterHeight)
+
+    if nX > 0 and nX < self.map.width*self.map.tilewidth then
+        self.x = nX-lg.quarterWidth
+    end
+    if nY > 0 and nY < self.map.height*self.map.tileheight then
+        self.y = nY-lg.quarterHeight
+    end
 
 end
 

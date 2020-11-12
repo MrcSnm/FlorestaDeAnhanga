@@ -12,6 +12,8 @@ function AnimalSpawner:initialize(map)
     self.options = {}
     self.activeAnimals = 0
 
+    self.currentID = 0
+
     self.isSpawning = true
 
 
@@ -40,8 +42,9 @@ function AnimalSpawner:initialize(map)
 end
 
 function AnimalSpawner:spawn(x, y, animalType)
-    table.insert(self.animals, Animal(animalType, x, y))
+    table.insert(self.animals, Animal(animalType, x, y, "Animal_"..self.currentID))
     self.activeAnimals = self.activeAnimals + 1
+    self.currentID = self.currentID + 1
 end
 
 function AnimalSpawner:randSpawn()
