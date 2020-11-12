@@ -15,9 +15,17 @@ function setOs()
     system = love.system.getOS()
 end
 
-function setColor(r,g,b,a)
-    if a == nil then a = 255 end
-    love.graphics.setColor(r / 255,g / 255,b / 255, a / 255)
+function drawTextureless(x, y)
+    local r,g,b,a = love.graphics.getColor()
+    love.graphics.setColor(0,1,0,1)
+    love.graphics.rectangle("fill", x, y, 32, 32)
+    love.graphics.setColor(0,0,0,1)
+    love.graphics.rectangle("fill", x-2, y-2, 36, 36)
+    love.graphics.setColor(0,1,0,1)
+    love.graphics.line(x-2, y-2, x+34, y+34)
+    love.graphics.line(x+34, y-2, x-2, y+34)
+    love.graphics.setColor(r,g,b,a)
+
 end
 function generateSpritesheetSized(texture, tileWidth, tileHeight, maxWidth, maxHeight, offsetX, offsetY)
 
@@ -40,9 +48,9 @@ function generateSpritesheetSized(texture, tileWidth, tileHeight, maxWidth, maxH
 
     
     local frame = 1
-    for y = offsetY, height - frameHei + offsetY, frameHei do
-        for x = offsetX, width - frameWid + offsetX, frameWid do
-            spriteSheet.frames[frame] = love.graphics.newQuad(x, y, frameWid, frameHei, texture:getDimensions())
+    for y = 0, height - frameHei, frameHei do
+        for x = 0, width - frameWid, frameWid do
+            spriteSheet.frames[frame] = love.graphics.newQuad(x+offsetX, y+offsetY, frameWid, frameHei, texture:getDimensions())
             frame = frame + 1
         end
     end
@@ -82,6 +90,24 @@ end
 
 function generateSpritesheet(texture, lines, columns)
     return generateSpritesheetTiles(texture, texture:getWidth() / columns, texture:getHeight() / lines, 0, 0)
+end
+
+function generateSpritesheetMultiple(texture, lines_anim, columns_anim, lines_types, columns_types)
+    local ret = {}
+    local w = texture:getWidth()
+    local h = texture:getHeight()
+
+    local tw = w/columns_types/columns_anim
+    local th = h/lines_types/lines_anim
+
+
+    for i = 1, columns_types do
+        for j = 1, lines_types do
+            table.insert(ret, generateSpritesheetSized(texture, 
+            tw, th, tw * columns_anim, th * lines_anim, (i-1)*tw*columns_anim, (j-1)*th*lines_anim))
+        end
+    end
+    return ret
 end
 
 
@@ -134,6 +160,12 @@ function table.pack(...)
     return {...}
 end
 
+function printKeys(tb)
+    for k, v in pairs(tb) do
+        print(k.." =",v)
+    end
+end
+
 function table.swap(table, first, second)
     local buf = table[first]
     table[first] = table[second]
@@ -141,6 +173,5 @@ function table.swap(table, first, second)
 end
 
 function isInRange(left, right, n)
-
     return n>= left and n <= right
 end

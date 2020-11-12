@@ -30,6 +30,7 @@ function Animation:initialize(frames)
     self.isLooping = true
     self.isPingPong = false
 
+    
     local isFramesList = frames[1][1] ~= nil
 
     if isFramesList then

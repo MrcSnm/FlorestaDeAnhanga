@@ -1,15 +1,20 @@
 require "src.libs"
 
 function love.load()
+    global_init()
     love.graphics.setDefaultFilter('nearest', 'nearest')
     GAME_MAP = sti(GAME_MAP_NAME)
 
     CAMERA = Camera(0,0)
     player = Player(GAME_MAP, CAMERA)
+    player.x = player.x - love.graphics.getWidth() / 2
+    player.y = player.y - love.graphics.getHeight() / 2
 
 
     LIGHTING_SHADER = DayNightLightShader(CAMERA, GAME_MAP)
+    ANIMAL_SPAWNER = AnimalSpawner(GAME_MAP)
     GAME_MAP.layers["objects"].visible = false
+    GAME_MAP.layers["spawns"].visible = false
 
     GAME_MAP_TOP_LAYERS = {}
     table.insert(GAME_MAP_TOP_LAYERS, separateLayer(GAME_MAP, "trees_top"))
@@ -17,10 +22,6 @@ function love.load()
     LIGHTING_SHADER:addLightSource(player.lightSource)
     CAMERA:zoom(2)
 
-    global_init()
-
-    player.x = player.x - love.graphics.getWidth() / 2
-    player.y = player.y - love.graphics.getHeight() / 2
 
     
 end
@@ -59,9 +60,9 @@ function love.update(dt)
         CAMERA:move(0, 10)
     end
     player:update(dt)
-
-
+    ANIMAL_SPAWNER:update(dt)
 end
+
 
 function love.resize(w,h)
     --push:resize(w,h)
@@ -74,14 +75,12 @@ function love.draw()
         GAME_MAP:draw(-CAMERA.x, -CAMERA.y, CAMERA.scale, CAMERA.scale) --Currently only ground level 
         CAMERA:attach()
             player:draw()
+            ANIMAL_SPAWNER:draw()
         CAMERA:detach()
 
         hump_x_sti_renderTopLayers(GAME_MAP_TOP_LAYERS, GAME_MAP, CAMERA)
     end)
 
     global_draw_overlay()
-
-    print(CAMERA.x)
-    print(CAMERA.targetX)
 
 end

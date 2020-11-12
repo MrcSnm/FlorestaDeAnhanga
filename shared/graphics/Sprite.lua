@@ -70,28 +70,30 @@ local function manageOpacity(sprite)
 end
 
 function Sprite:draw()
-    if self.visible and self.opacity > 0 and self.currentTexture ~= nil then
-
+    if self.visible and self.opacity > 0 then
         local hasChange, r, g, b, a = manageOpacity(self)
-        if self.currentQuad ~= nil then
-            love.graphics.draw(
-                self.currentTexture,
-                self.currentQuad,
-                self.x, self.y,
-                self.rotation,
-                self.scaleX, self.scaleY,
-                self.originX, self.originY
-            )
+        if self.currentTexture == nil then
+            drawTextureless(self.x, self.y)
         else
-            love.graphics.draw(
-                self.currentTexture,
-                self.x, self.y,
-                self.rotation,
-                self.scaleX, self.scaleY,
-                self.originX, self.originY
-            )
+            if self.currentQuad ~= nil then
+                love.graphics.draw(
+                    self.currentTexture,
+                    self.currentQuad,
+                    self.x, self.y,
+                    self.rotation,
+                    self.scaleX, self.scaleY,
+                    self.originX, self.originY
+                )
+            else
+                love.graphics.draw(
+                    self.currentTexture,
+                    self.x, self.y,
+                    self.rotation,
+                    self.scaleX, self.scaleY,
+                    self.originX, self.originY
+                )
+            end
         end
-        
         if hasChange then
             love.graphics.setColor(r,g,b,a)
         end

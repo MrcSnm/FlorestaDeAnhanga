@@ -100,10 +100,10 @@ function Player:update(dt)
     self:input(dt)
     if self.isCameraFollowing then
         --self.camera:move(self.x - self.camera.x, self.y - self.camera.y)
-        if self.x > love.graphics.getWidth()/2 and self.x < self.mapWidth - love.graphics.getWidth()/2 then
+        if self.x > 0 and self.x < self.mapWidth - love.graphics.getWidth()/2 then
             cam_lockX(self.camera, self.x)
         end        
-        if self.y > love.graphics.getHeight()/2 and self.y < self.mapHeight - love.graphics.getHeight()/2 then
+        if self.y > 0 and self.y < self.mapHeight - love.graphics.getHeight()/2 then
             cam_lockY(self.camera, self.y)
         end
     end

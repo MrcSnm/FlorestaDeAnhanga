@@ -31,6 +31,7 @@ require "shared.hump_x_sti.hump_x_sti"
 --Others
 require "shared.default"
 require "shared.Assets"
+require "shared.Timer"
 push = require "shared.push"
 require "shared.slam"
 
@@ -39,6 +40,8 @@ require "shared.slam"
 --Sources
 require "src.globals"
 require "src.Player"
+require "src.Animal"
+require "src.AnimalSpawner"
 
 require "src.shaders.DayNightShader"
 require "src.shaders.LightingShader"
