@@ -53,12 +53,12 @@ end
 
 function Timer:_execute()
     if self.timerType == Timer.LOOP then
-        self.callback(self.currentTime / self.countdown)    
+        self.callback(self.currentTime / self.countdown, self)
     end
 
     if self.currentTime >= self.countdown then
         if self.timerType == Timer.ONE_SHOT then
-            self.callback(self.currentTime / self.countdown)
+            self.callback(self.currentTime / self.countdown, self)
         end
         if self.isLooping then
             if self.endFunc() then

@@ -73,8 +73,11 @@ function Animal:initialize(animalType, x, y, colliderName)
 
     local this = self
 
-    self.changeDirTimer = Timer(Timer.ONE_SHOT, 4,
-    function()this:changeDir()end,
+    self.changeDirTimer = Timer(Timer.ONE_SHOT, math.max(math.random()*4,0.25),
+    function(progress, timer)
+        this:changeDir()
+        timer.countdown = math.max(math.random()*4, 0.25)
+    end,
     function() return this.stopMoving end)
 
 end
@@ -91,7 +94,6 @@ function Animal:changeDir()
 end
 
 function Animal:walk(dt)
-
     local dx = 0
     local dy = 0
     local dir = self.currentDir

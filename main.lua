@@ -98,6 +98,9 @@ function love.draw()
 
         hump_x_sti_renderTopLayers(GAME_MAP_TOP_LAYERS, GAME_MAP, CAMERA)
     end)
+    CAMERA:attach()
+        hump_x_sti_showCamBounds(CAMERA, GAME_MAP)
+    CAMERA:detach()
 
     global_draw_overlay()
 

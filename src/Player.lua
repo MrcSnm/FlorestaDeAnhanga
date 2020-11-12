@@ -95,9 +95,13 @@ function Player:input(dt)
 
     
     local _x, _y, cols, len = WORLD:move(self.collider, tempX+lg.quarterWidth, tempY+lg.quarterHeight+30)
-    -- if not checkCollision(self.map, COLLISION_LAYERS, tempX, tempY) then
-    self.x = _x-lg.quarterWidth
-    self.y = _y-lg.quarterHeight-30
+    
+    if _x > 32 and _x < self.mapWidth then
+        self.x = _x-lg.quarterWidth
+    end
+    if _y > 32 and _y < self.mapHeight then
+        self.y = _y-lg.quarterHeight-30
+    end
 
 end
 
