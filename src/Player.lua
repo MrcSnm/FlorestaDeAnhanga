@@ -44,7 +44,18 @@ function Player:initialize(map, camera)
         maxThreshold = 500 --If higher, color = 0
     }
 
+    self.collider = 
+    {
+        name="Player"
+    }
+    self.world = WORLD
 
+    self:inputCollider(WORLD)
+
+end
+
+function Player:inputCollider(world)
+    world:add(self.collider, self.x, self.y, self.map.tilewidth, self.map.tileheight)
 end
 
 function Player:input(dt)
@@ -74,13 +85,18 @@ function Player:input(dt)
         self:alternateForm()
     end
 
-    if(moveX == 0 and moveY == 0) then
-        self.isStill = true
-    else
-        self.isStill = false
-    end
-    self.x = self.x + moveX*dt
-    self.y = self.y + moveY*dt
+    self.isStill = (moveX == 0 and moveY == 0)
+
+
+    
+    local tempX = self.x + moveX*dt
+    local tempY = self.y + moveY*dt
+
+    
+    local _x, _y, cols, len = WORLD:move(self.collider, tempX+love.graphics.getWidth()/4, tempY+love.graphics.getHeight()/4)
+    -- if not checkCollision(self.map, COLLISION_LAYERS, tempX, tempY) then
+    self.x = _x-love.graphics.getWidth()/4
+    self.y = _y-love.graphics.getHeight()/4
 
 end
 

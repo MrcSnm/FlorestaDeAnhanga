@@ -3,7 +3,9 @@ require "src.libs"
 function love.load()
     global_init()
     love.graphics.setDefaultFilter('nearest', 'nearest')
-    GAME_MAP = sti(GAME_MAP_NAME)
+    WORLD = bump.newWorld()
+    GAME_MAP = sti(GAME_MAP_NAME, {"bump"})
+    GAME_MAP:bump_init(WORLD)
 
     CAMERA = Camera(0,0)
     player = Player(GAME_MAP, CAMERA)
@@ -17,13 +19,30 @@ function love.load()
     GAME_MAP.layers["spawns"].visible = false
 
     GAME_MAP_TOP_LAYERS = {}
+    COLLISION_LAYERS = getCollisionLayers(GAME_MAP, {"holes", "trees", "holes2", "water"})
     table.insert(GAME_MAP_TOP_LAYERS, separateLayer(GAME_MAP, "trees_top"))
 
     LIGHTING_SHADER:addLightSource(player.lightSource)
+
+    printKeys(COLLISION_LAYERS[1])
     CAMERA:zoom(2)
 
-
 end
+
+function checkCollision(map, collisionLayers, x, y)
+    local _x, _y = map:convertPixelToTile(x,y)
+    _x = math.floor(_x)
+    _y = math.floor(_y)
+    for k, layer in ipairs(collisionLayers) do
+        local tile = layer.data[_y][_x]
+        if tile then
+            print(layer.name)
+            return true
+        end
+    end
+end
+
+
 
 function love.mousepressed(x, y, button)
     love.mouse.hasBeenPressed = true

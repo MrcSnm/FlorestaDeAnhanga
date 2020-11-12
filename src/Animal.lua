@@ -19,9 +19,6 @@ local function createAnimalType(animalType, columns_anim,  rows_anim, columns_ty
     for i, v in ipairs(ret.spritesheet) do 
         table.insert(ret.frames ,spritesheetToFrames_RPGMaker(v, columns_anim, {"down", "left", "right", "up"}, 12))
     end
-    if(animalType == "tartaruga") then
-        printKeys(ret.spritesheet[1])
-    end
 
     ret.palleteSize = columns_types*rows_types
     ret.scale = scale or 1

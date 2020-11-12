@@ -10,3 +10,6 @@
 [submodule "external/hump"]
 	path = external/hump
 	url = https://github.com/HDictus/hump
+[submodule "external/bump"]
+	path = external/bump
+	url = https://github.com/kikito/bump.lua
