@@ -1,8 +1,7 @@
 AnimalSpawner = Class("AnimalSpawner")
 
 SPAWN_AREAS_NAME = "spawns"
-INITIAL_ANIMAL_COUNT = 20
-
+INITIAL_ANIMAL_COUNT = 200
 function AnimalSpawner:initialize(map)
     
     --Spawn areas array
@@ -34,10 +33,10 @@ function AnimalSpawner:initialize(map)
     end
 
 
-    self:spawn(player.x, player.y, ANIMAL_TYPES.tartaruga)
-    -- for i = 1, INITIAL_ANIMAL_COUNT do
-    --     self:randSpawn()
-    -- end
+    -- self:spawn(player.x, player.y, ANIMAL_TYPES.tartaruga)
+    for i = 1, INITIAL_ANIMAL_COUNT do
+        self:randSpawn()
+    end
 end
 
 function AnimalSpawner:spawn(x, y, animalType)

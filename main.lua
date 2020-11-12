@@ -23,7 +23,6 @@ function love.load()
     CAMERA:zoom(2)
 
 
-    
 end
 
 function love.mousepressed(x, y, button)

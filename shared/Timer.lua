@@ -1,10 +1,7 @@
 Timer = Class("Timer")
 
-Timer.static.types = 
-{
-    ONE_SHOT,
-    LOOP
-}
+Timer.static.ONE_SHOT = 1
+Timer.static.LOOP = 2
 
 --Loop has an optional parameter of current progress
 function Timer:initialize(timerType, countdown, callback, endFunc)
@@ -32,6 +29,7 @@ end
 
 function Timer:restart(timerType, countdown, callback)
     self.timerType = timerType
+    self.currentTime = 0
     self.countdown = countdown or 0
     self.callback = callback
     self.isLooping = false
@@ -61,16 +59,16 @@ function Timer:_execute()
     if self.currentTime >= self.countdown then
         if self.timerType == Timer.ONE_SHOT then
             self.callback(self.currentTime / self.countdown)
-
-            if self.isLooping then
-                if self.endFunc() then
-                    self.isLooping = false
-                else
-                    self:loopOneshot(self.countdown, self.callback, self.endFunc)
-                end
-            end
         end
-        self:stop()
+        if self.isLooping then
+            if self.endFunc() then
+                self.isLooping = false
+            else
+                self:loopOneshot(self.countdown, self.callback, self.endFunc)
+            end
+        else
+            self:stop()
+        end
     end
 end
 

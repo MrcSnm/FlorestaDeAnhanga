@@ -51,23 +51,22 @@ function Animal:initialize(animalType, x, y)
 
     self.animalType = animalType
     self.palleteChoice = math.random(animalType.palleteSize)
-    local this = self
-
-    local _reset = nil
-    self.changeDirTimer = Timer(Timer.ONE_SHOT, 1, nil)
-    _reset =  function()
-        this:changeDir()
-        this.changeDirTimer:restart(Timer.ONE_SHOT, 1, _reset)
-    end
-    self.movespeed = animalType.movespeed
-
     AnimatedSprite.initialize(self, animalType.frames[self.palleteChoice])
     self.currentDir = -1
     self.x = x
     self.y = y
-    self:loopPlay("down")
-    self:walk(0)
+    self.movespeed = animalType.movespeed
+    self.isMoving = false
+
+    self:changeDir()
     self:setScale(animalType.scale)
+
+    local this = self
+
+    self.changeDirTimer = Timer(Timer.ONE_SHOT, 4,
+    function()this:changeDir()end,
+    function() return this.isMoving end)
+    
 
 end
 
