@@ -51,6 +51,7 @@ function Player:initialize(map, camera)
     }
     self.world = WORLD
 
+    self.followingAnimals = {}
     self:inputCollider(WORLD)
 
 end
@@ -105,6 +106,32 @@ function Player:input(dt)
 
 end
 
+function Player:interaction(spawner)
+    local x = self.x
+    local y = self.y
+
+    local nX = x
+    local nY = y
+    if self.currentMovement == "up" then
+        nY = y - 32
+    elseif self.currentMovement == "down" then
+        nY = y + 32
+    elseif self.currentMovement == "left" then
+        nX = x - 32
+    else
+        nX = x + 32
+    end
+
+    local current = {x = x, y = y, width = 32, height = 32}
+    local next = {x = nX, y = nY, width = 32, height = 32}
+    for i, v in ipairs(spawner.animals) do
+        local rec = {x = v.x, y = v.y,  width = 32, height = 32}
+        if rectIntersectsRect(current,  rec) or rectIntersectsRect(next, rec) then
+            print("Intersected with "..v.animalType.animalType)
+        end
+    end
+end
+
 function Player:alternateForm()
     self.isDeer = not self.isDeer
     if self.isDeer then
@@ -121,12 +148,8 @@ function Player:update(dt)
     self:input(dt)
     if self.isCameraFollowing then
         --self.camera:move(self.x - self.camera.x, self.y - self.camera.y)
-        if self.x > 0 and self.x < self.mapWidth - love.graphics.getWidth()/2 then
-            cam_lockX(self.camera, self.x)
-        end        
-        if self.y > 0 and self.y < self.mapHeight - love.graphics.getHeight()/2 then
-            cam_lockY(self.camera, self.y)
-        end
+        cam_lockX(self.camera, math.min(math.max(self.x, 0), self.mapWidth - love.graphics.halfWidth))
+        cam_lockY(self.camera, math.min(math.max(self.y, 0), self.mapHeight - love.graphics.halfHeight))
     end
     self.lightSource.position[1] = self.x + love.graphics.getWidth()/2 --Half screen + half size
     self.lightSource.position[2] = self.y + love.graphics.getHeight()/2 --Half screen + half size

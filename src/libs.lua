@@ -30,10 +30,12 @@ require "shared.hump.camera_extra"
 
 require "shared.hump_x_sti.hump_x_sti"
 
+
 --Others
 require "shared.default"
 require "shared.Assets"
 require "shared.Timer"
+require "shared.collision"
 push = require "shared.push"
 require "shared.slam"
 

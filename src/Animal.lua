@@ -114,12 +114,12 @@ function Animal:walk(dt)
     self:loopPlay(self.currentMovement, self.isRunning)
     local tempX = self.x + dx*dt
     local tempY = self.y + dy*dt
-    local nX, nY, col, len = self.world:move(self.collider, tempX+lg.quarterWidth,  tempY+lg.quarterHeight+30)
+    local nX, nY, col, len = self.world:move(self.collider, tempX+lg.quarterWidth+16,  tempY+lg.quarterHeight+30)
 
 
     self.isStill = len > 0
     if nX > 0 and nX < self.map.width*self.map.tilewidth then
-        self.x = nX-lg.quarterWidth
+        self.x = nX-lg.quarterWidth-16
     end
     if nY > 0 and nY < self.map.height*self.map.tileheight then
         self.y = nY-lg.quarterHeight-30

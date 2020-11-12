@@ -42,19 +42,22 @@ function hump_x_sti_showCamBounds(cam, map)
 
 	local r,g,b,a =love.graphics.getColor()
 
-	love.graphics.setColor(0,1,0,1)
-	love.graphics.print("Camera Top: "..tostring(math.floor(y)), x, y)
-	love.graphics.print("Camera Left: "..tostring(math.floor(x)), x, y+20)
-	love.graphics.print("Camera Bottom: "..tostring(math.floor(y)+h), x, y+40)
-	love.graphics.print("Camera Right: "..tostring(math.floor(x)+w), x, y+60)
+	cam:attach()
+		love.graphics.setColor(0,1,0,1)
+		love.graphics.print("Camera Top: "..tostring(math.floor		(y)), 		x, y)
+		love.graphics.print("Camera Left: "..tostring(math.floor	(x)), 		x, y+20)
+		love.graphics.print("Camera Bottom: "..tostring(math.floor	(y)+h),		x, y+40)
+		love.graphics.print("Camera Right: "..tostring(math.floor	(x)+w), 	x, y+60)
 
-	love.graphics.setColor(1,0,0,1)
+		love.graphics.setColor(1,0,0,1)
 
-	love.graphics.setPointSize(10)
-	love.graphics.points(x, y+h/2, --Left
-						x+w/2,y, --Top
-						x+w, y+h/2, --Right
-						x+w/2, y+h) --Bottom
+		love.graphics.setPointSize(10)
+		love.graphics.points(x, y+h/2, --Left
+							x+w/2,y, --Top
+							x+w, y+h/2, --Right
+							x+w/2, y+h) --Bottom
 
-	love.graphics.setColor(r,g,b,a)
+		love.graphics.setColor(r,g,b,a)
+    cam:detach()
+
 end
