@@ -105,8 +105,10 @@ function Animal:enterCave()
             this.isStill = false
             
             if CAVE.x-lg.quarterWidth*1.125 > self.x then
+                this:restart()
                 this:loopPlay("right")
             else
+                this:restart()
                 this:loopPlay("left")
             end
         end),
