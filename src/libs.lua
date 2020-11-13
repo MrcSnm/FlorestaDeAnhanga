@@ -29,6 +29,7 @@ require "shared.sti.STI_AnimatedSpriteObject" --Provides sti class for sprites
 require "shared.tweening.Action"
 require "shared.tweening.ActionManager"
 require "shared.tweening.ActionSequence"
+require "shared.tweening.ActionSpawn"
 require "shared.tweening.MoveByAction"
 
 --Hump

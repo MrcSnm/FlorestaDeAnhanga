@@ -56,9 +56,9 @@ function Player:initialize(map, camera)
     self.followingAnimals = {}
     self:inputCollider(WORLD)
 
-    ACT:pushAction(ActionSequence({
-        MoveByAction(2, -600, -600, self),
-        MoveByAction(1, 0, -200, self)
+    ACT:pushAction(ActionSpawn({
+        MoveByAction(4, -120, 0, self),
+        MoveByAction(4, 0, -120, self)
     }))
 
 end

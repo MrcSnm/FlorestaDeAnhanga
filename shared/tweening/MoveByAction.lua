@@ -1,18 +1,20 @@
 MoveByAction = Class("MoveByAction", Action)
 
 function MoveByAction:initialize(dur, x, y, sprite)
-    self.initialX = 0
-    self.initialY = 0
+    self.lastX = 0
+    self.lastY = 0
     
     local this = self
     Action.initialize(self, dur, function(progress)
-        sprite.x = math.floor(this.initialX + x*progress)                        
-        sprite.y = math.floor(this.initialY + y*progress)
+        sprite.x = sprite.x - this.lastX
+        sprite.y = sprite.y - this.lastY
+
+        this.lastX = math.floor(progress*x)
+        this.lastY = math.floor(progress*y)
+
+        sprite.x = sprite.x + this.lastX
+        sprite.y = sprite.y + this.lastY
     end)
 
-    self.onStart = function()
-        this.initialX = sprite.x
-        this.initialY = sprite.y
-    end
 
 end

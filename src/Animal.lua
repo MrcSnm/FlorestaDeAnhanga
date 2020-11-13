@@ -85,6 +85,11 @@ end
 
 
 function Animal:enterCave()
+
+    ACT:pushAction(ActionSequence({
+        MoveByAction(2, CAVE.x, 0, self),
+        MoveByAction(2, 0, CAVE.y, self)
+    }))
 end
 
 function Animal:inputCollider()
