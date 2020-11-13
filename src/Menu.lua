@@ -42,6 +42,17 @@ function Menu:checkSelected()
     if love.keyboard.wasJustPressed("left") or love.keyboard.wasJustPressed("right") then
         self.currentSelected = self.currentSelected % 2 + 1
         self:alternateChoice(self.currentSelected)
+        Assets.getSfx("select.wav"):play()
+    elseif love.keyboard.wasJustPressed("return") then
+        Assets.getSfx("confirm.wav"):play()
+        if self.currentSelected == CHOICES.INICIAR then
+            gStateMachine:change("main")
+        else
+            ACT:pushAction(ActionSequence({
+                ActionDelay(0.5),
+                ActionCallback(love.event.quit)
+            }))
+        end
     end
 end
 

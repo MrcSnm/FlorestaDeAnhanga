@@ -12,6 +12,7 @@ function MainState:enter()
     player.x = player.x - love.graphics.getWidth() / 2
     player.y = player.y - love.graphics.getHeight() / 2
 
+    CAMERA:lookAt(player.x, player.y)
 
     LIGHTING_SHADER = DayNightLightShader(CAMERA, GAME_MAP)
     ANIMAL_SPAWNER = AnimalSpawner(GAME_MAP)
@@ -51,14 +52,22 @@ function MainState:update(dt)
 
 
     if(love.keyboard.wasPressed("right")) then
-        CAMERA:move(10, 0)
+        if(CAMERA.x+10 < GAME_MAP.width * GAME_MAP.tilewidth) then
+            CAMERA:move(10, 0)
+        end
     elseif(love.keyboard.wasPressed("left")) then
-        CAMERA:move(-10,0)
+        if(CAMERA.x > 10) then
+            CAMERA:move(-10,0)
+        end
     end
     if(love.keyboard.wasPressed("up")) then
-        CAMERA:move(0,-10)
+        if(CAMERA.y > 10) then
+            CAMERA:move(0,-10)
+        end
     elseif(love.keyboard.wasPressed("down")) then
-        CAMERA:move(0, 10)
+        if(CAMERA.y+10 < GAME_MAP.height * GAME_MAP.tileheight) then
+            CAMERA:move(0, 10)
+        end
     end
     player:update(dt)
     ANIMAL_SPAWNER:update(dt)
