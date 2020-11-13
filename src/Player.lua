@@ -55,10 +55,50 @@ function Player:initialize(map, camera)
     self.world = WORLD
 
     self.followingAnimals = {}
+    self.moveHistory = {}
+    self._currentMove = nil
+    self.nextMoveHistory = 1
+
     self:inputCollider(WORLD)
 
+end
+
+function Player:addToHistory()
+
+    if #self.followingAnimals > 0 then
+        local tileX = math.floor(self.x / self.map.tilewidth)
+        local tileY = math.floor(self.y / self.map.tileheight)
+
+        local toCheck = self.nextMoveHistory - 1
+        if toCheck == 0 then toCheck = #self.moveHistory end
+
+        if toCheck ~= 0 then
+            if tileX == self.moveHistory[toCheck].tileX and tileY == self.moveHistory[toCheck].tileY then
+                return
+            end
+        end
+        
+        
+        self.moveHistory[self.nextMoveHistory] = {tileX = tileX, tileY = tileY}
+
+        self.nextMoveHistory = self.nextMoveHistory + 1
+
+        if self.nextMoveHistory > #self.followingAnimals then
+            self.nextMoveHistory = 1
+        end
 
 
+    end
+
+
+    
+end
+
+
+function Player:manageFollowingAnimal()
+    self._currentMove = {tileX = math.floor(self.x / self.map.tilewidth), tileY =math.floor(self.y / self.map.tileheight)}
+    self:addToHistory()
+    self:sendMovements()
 end
 
 function Player:inputCollider(world)
@@ -187,6 +227,18 @@ function Player:alternateForm()
     self:reset()
 end
 
+function Player:sendMovements()
+    for i, v in ipairs(self.followingAnimals) do
+        local next = self.nextMoveHistory + (i-1)
+
+        if next > #self.followingAnimals then
+            next = (next % #self.followingAnimals)
+        end
+
+        v:putMovement(self.moveHistory[next])
+    end
+end
+
 function Player:update(dt)
     STI_AnimatedSpriteObject.update(self, dt)
     self:input(dt)
@@ -198,6 +250,7 @@ function Player:update(dt)
     self.lightSource.position[1] = self.x + lg.quarterWidth --Half screen + half size
     self.lightSource.position[2] = self.y + lg.quarterHeight --Half screen + half size
 
+    self:manageFollowingAnimal()
 end
 
 

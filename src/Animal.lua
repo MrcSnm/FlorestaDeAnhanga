@@ -91,6 +91,8 @@ function Animal:initialize(animalType, x, y, colliderName)
         minThreshold = 20, --If lesser, color = power
         maxThreshold = 500 --If higher, color = 0
     }
+
+    self.movementsSequence = {}
 end
 
 
@@ -99,10 +101,12 @@ function Animal:enterCave()
     self.isEnteringCave = true
     return ActionSequence({
         ActionCallback(function()
+            this.isStill = false
             this:loopPlay("left", false)
         end),
         MoveToAction(1, CAVE.x-lg.quarterWidth, self.y, self),
         ActionCallback(function()
+            this.isStill = false
             this:loopPlay("up", false)
         end),
         ActionSpawn({
@@ -124,17 +128,33 @@ end
 
 function Animal:startFollowing(target)
     assert(target.x ~=nil and target.y~=nil, "Target does not have any position")
+
     self.followTarget = target
     self.stopChangingDir = true
     LIGHTING_SHADER:addLightSource(self.lightSource)
     self:onRemove()
-
-
 end
 
 function Animal:onRemove()
     self.world:remove(self.collider)
 end
+
+
+function Animal:putMovement(mov)
+    if mov == nil then
+        return
+    end
+    
+    if(#self.movementsSequence == 0) then
+        table.insert(self.movementsSequence, mov)
+        return
+    end
+    local currMov = self.movementsSequence[#self.movementsSequence]
+    if(mov.tileX ~= currMov.tileX or mov.tileY ~= currMov.tileY) then
+        table.insert(self.movementsSequence, mov)
+    end
+end
+
 function Animal:changeDir()
     self.currentDir = math.random(4)
 end
@@ -214,9 +234,9 @@ end
 function Animal:update(dt)
     AnimatedSprite.update(self, dt)
     if self.followTarget == nil then
-        self:walk(dt)
+        self:walk(dt) --Random walk
     elseif not self.isEnteringCave then
-        self:follow(self.followTarget, dt)
+        self:followSequence()
     end
     self.changeDirTimer:update(dt)
     self.lightSource.position[1] = self.x+lg.quarterWidth
@@ -232,29 +252,79 @@ function Animal:draw()
     AnimatedSprite.draw(self)
 end
 
-function Animal:follow(target, dt)
 
-    local offsetX = 24
-    local offsetY = 24
-    local dx = math.floor(target.x - self.x + offsetX)
-    local dy = math.floor(target.y - self.y + offsetY)
+function Animal:moveTo(tileX, tileY)
 
-    if math.abs(dx) > offsetX then
-        if dx > 0 then --Move
-            self.currentDir = DIRECTIONS.RIGHT
-        elseif dx < 0 then
-            self.currentDir = DIRECTIONS.LEFT
+    if self.isMovementLocked then
+        return
+    end
+    self.isMovementLocked = true
+    local willMove = true
+
+    local x = self.map.tilewidth*tileX
+    local y = self.map.tileheight*tileY
+
+    local diffX = math.floor(x - self.x)
+    local diffY = math.floor(y - self.y)
+    local offset = 32
+
+    local act
+    local movements = {}
+    local this = self
+    local speed = 0.1
+
+
+    if(math.abs(diffX) + math.abs(diffY) == offset) then
+        willMove = false;
+        self.isStill = true
+    elseif(math.abs(diffX) > math.abs(diffY)) then
+        if diffX > 0 then
+            x = x - offset
+            table.insert(movements, ActionCallback(function()
+                self.currentMovement = "right"
+                this:loopPlay("right")
+            end))
+        else
+            x = x + offset
+            table.insert(movements, ActionCallback(function()
+                self.currentMovement = "left"
+                this:loopPlay("left")
+            end))
         end
-    elseif math.abs(dy) > offsetY then
-        if dy > 0 then
-            self.currentDir = DIRECTIONS.DOWN
-        elseif dy < 0 then
-            self.currentDir = DIRECTIONS.UP
+    elseif(math.abs(diffX) < math.abs(diffY)) then
+        if diffY > 0 then
+            y = y - offset
+            table.insert(movements, ActionCallback(function()
+                self.currentMovement = "down"
+                this:loopPlay("down")
+            end))
+        else
+            y = y + offset
+            table.insert(movements, ActionCallback(function()
+                self.currentMovement = "up"
+                this:loopPlay("up")
+            end))
         end
-    else --Equal case
-        self.currentDir = -1
     end
 
+    if willMove then
+        self.isStill = true
+        table.insert(movements, MoveToAction(speed, x, y, self))
+    end
 
-    self:walk(dt)
+    table.insert(movements, ActionCallback(function()
+        this.isMovementLocked = false
+        table.remove(this.movementsSequence, 1)
+    end))
+
+    act = ActionSequence(movements)
+    ACT:pushAction(act)
+end
+
+
+function Animal:followSequence()
+    if #self.movementsSequence > 0 then
+        self:moveTo(self.movementsSequence[1].tileX, self.movementsSequence[1].tileY)
+    end
+
 end
