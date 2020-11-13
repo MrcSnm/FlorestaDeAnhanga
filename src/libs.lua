@@ -49,6 +49,9 @@ require "shared.Assets"
 require "shared.Timer"
 require "shared.collision"
 push = require "shared.push"
+
+require "shared.state.State"
+require "shared.state.StateMachine"
 --  require "shared.slam"
 
 
@@ -62,3 +65,10 @@ require "src.AnimalSpawner"
 require "src.shaders.DayNightShader"
 require "src.shaders.LightingShader"
 require "src.shaders.DayNightLightShader"
+
+
+require "src.Interface"
+require "src.Menu"
+
+require "src.states.MainState"
+require "src.states.MenuState"

@@ -58,6 +58,7 @@ VIRTUAL_HEIGHT = 320
 function global_init()
     global_StartTalkiesTheme()
     love.keyboard.keysPressed = {} 
+    love.keyboard.keysJustPressed = {} 
     love.mouse.hasBeenPressed = false
     math.randomseed(os.time())
     ACT = ActionManager()
@@ -75,10 +76,13 @@ end
 function global_update(dt)
     Talkies.update(dt)
     ACT:update(dt)
+
+    love.keyboard.keysJustPressed = {}
 end
 
 function global_keypress(key)
     love.keyboard.keysPressed[key] = true
+    love.keyboard.keysJustPressed[key] = true
     if key == "return" then Talkies.onAction()
     elseif key == "up" then Talkies.prevOption()
     elseif key == "down" then Talkies.nextOption()
@@ -88,6 +92,15 @@ end
 function love.keyboard.wasPressed(key)
     return love.keyboard.keysPressed[key] == true
 end
+
+function love.keyboard.wasJustPressed(key)
+    if love.keyboard.keysJustPressed[key] then
+        return true
+    else
+        return false
+    end
+end
+
 
 function global_keyup(key)
     love.keyboard.keysPressed[key] = false
