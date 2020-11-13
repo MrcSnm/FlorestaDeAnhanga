@@ -13,7 +13,11 @@ end
 
 function ActionSequence:update(dt)
 
+    if self.actions[self.currentActionIndex].currentTime == 0 then
+        self.actions[self.currentActionIndex].onStart()
+    end
     if self.actions[self.currentActionIndex]:update(dt) then
+        self.actions[self.currentActionIndex].onFinish()
         self.currentActionIndex = self.currentActionIndex + 1
     end
 

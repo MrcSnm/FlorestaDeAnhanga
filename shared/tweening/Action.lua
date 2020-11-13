@@ -11,6 +11,9 @@ function Action:initialize(duration, callback)
         this.hasFinished = progress >= 1
         return this.hasFinished
     end
+
+    self.onStart = function()end
+    self.onFinish = function()end
 end
 
 function Action:update(dt)
