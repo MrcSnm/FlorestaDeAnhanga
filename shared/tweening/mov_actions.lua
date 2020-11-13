@@ -17,6 +17,24 @@ function MoveByAction:initialize(dur, x, y, sprite)
     end)
 end
 
-function MoveToAction(dur, x, y, sprite)
-    return MoveByAction(dur, x-sprite.x, y-sprite.y, sprite)
+
+MoveToAction = Class("MoveToAction", Action)
+
+function MoveToAction:initialize(dur, x, y, target)
+
+    self.initialX = 0
+    self.initialY = 0
+
+    local this = self
+    Action.initialize(self, dur, function(progress)
+
+        target.x = (1-progress)*this.initialX   +(x*progress)
+        target.y = (1-progress)*this.initialY +(y*progress)
+    end)
+
+    self.onStart = function()
+        this.initialX = target.x
+        this.initialY = target.y
+    end
+
 end

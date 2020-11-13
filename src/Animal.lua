@@ -100,17 +100,23 @@ function Animal:enterCave()
     local this = self
     self.isEnteringCave = true
     return ActionSequence({
+        ActionDelay(0.1),
         ActionCallback(function()
             this.isStill = false
-            this:loopPlay("left", false)
+            
+            if CAVE.x-lg.quarterWidth*1.125 > self.x then
+                this:loopPlay("right")
+            else
+                this:loopPlay("left")
+            end
         end),
-        MoveToAction(1, CAVE.x-lg.quarterWidth, self.y, self),
+        MoveToAction(1, CAVE.x-lg.quarterWidth*1.125, self.y, self),
         ActionCallback(function()
             this.isStill = false
-            this:loopPlay("up", false)
+            this:loopPlay("up")
         end),
         ActionSpawn({
-            MoveToAction(1, CAVE.x-lg.quarterWidth, CAVE.y-lg.quarterHeight*1.4, self),
+            MoveToAction(1, CAVE.x-lg.quarterWidth*1.125, CAVE.y-lg.quarterHeight*1.4, self),
             ActionSequence({
                 ActionDelay(0.75),
                 ActionTintTo(0.25, {r=1, g=1,b=1,a=0}, self)

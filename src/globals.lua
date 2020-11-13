@@ -79,7 +79,7 @@ end
 
 function global_keypress(key)
     love.keyboard.keysPressed[key] = true
-    if key == "space" then Talkies.onAction()
+    if key == "return" then Talkies.onAction()
     elseif key == "up" then Talkies.prevOption()
     elseif key == "down" then Talkies.nextOption()
     end

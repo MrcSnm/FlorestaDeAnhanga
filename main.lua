@@ -102,6 +102,10 @@ function love.update(dt)
     end
     player:update(dt)
     ANIMAL_SPAWNER:update(dt)
+
+    --1*dt = 1 second = 1 hour
+    --(1*dt /60) = 1 minute = 1 hour
+    LIGHTING_SHADER.daynight.time = LIGHTING_SHADER.daynight.time + (1*dt/60)*5
 end
 
 
