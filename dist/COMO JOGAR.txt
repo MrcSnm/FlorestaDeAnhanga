@@ -1,0 +1,14 @@
+COMO JOGAR O JOGO:
+
+
+Teclas:
+
+W -> Mover para cima
+A -> Mover para esquerda
+S -> Mover para baixo
+D -> Mover para direita
+Enter -> Interagir com animais e com a caverna
+
+Este jogo deverá ser completado antes do amanhecer.
+
+É necessário interagir com os animais, levar até a caverna, após isto, interagir com a caverna

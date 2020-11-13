@@ -1,0 +1,6 @@
+COMO ABRIR O JOGO:
+
+
+Para abrir o jogo, após baixado, clique com o botão direito em Anhanga.zip
+Aparecerá algumas opções, procure por "Extrair Aqui", após concluido, clique
+de um duplo clique sobre o arquivo Anhanga.exe

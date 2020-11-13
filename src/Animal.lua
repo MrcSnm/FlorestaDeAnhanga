@@ -105,10 +105,8 @@ function Animal:enterCave()
             this.isStill = false
             
             if CAVE.x-lg.quarterWidth*1.125 > self.x then
-                this:restart()
                 this:loopPlay("right")
             else
-                this:restart()
                 this:loopPlay("left")
             end
         end),
@@ -196,30 +194,6 @@ function Animal:walk(dt)
     local tempY = self.y + dy*dt
 
     
-   if self.followTarget ~= nil then
-        local offsetX = 16
-        local offsetY = 16
-        local tgx = self.followTarget.x
-        local tgy = self.followTarget.y
-        if self.currentDir == DIRECTIONS.DOWN then
-            if tempY > tgy - offsetY then
-                tempY = tgy - offsetY
-            end
-        elseif self.currentDir == DIRECTIONS.UP then
-            if tempY < tgy - offsetY then
-                tempY = self.y
-            end
-        elseif self.currentDir == DIRECTIONS.LEFT then
-            if tempX < tgx + offsetX then
-                tempX = self.x
-            end
-        elseif self.currentDir == DIRECTIONS.RIGHT then
-            if tempX > tgx - offsetX then
-                tempX = self.x
-            end
-        end
-    end
-
     local len = 0
     if self.followTarget == nil then
         local nX, nY, col, len = self.world:move(self.collider, tempX+lg.quarterWidth+16,  tempY+lg.quarterHeight+30)
@@ -234,8 +208,6 @@ function Animal:walk(dt)
         self.x = tempX
         self.y = tempY
     end
-
-
 
 end
 
