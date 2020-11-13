@@ -13,6 +13,9 @@ end
 
 function ActionSequence:update(dt)
 
+    if self.currentActionIndex > #self.actions then
+        return true
+    end
     if self.actions[self.currentActionIndex].currentTime == 0 then
         self.actions[self.currentActionIndex].onStart()
     end

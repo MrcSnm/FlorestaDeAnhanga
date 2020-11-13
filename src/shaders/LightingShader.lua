@@ -21,6 +21,17 @@ function LightingShader:initialize(camera, map)
     self.map = map
 end
 
+function LightingShader:removeLightSource(lightSource)
+    local ind = -1
+    for i, v in ipairs(self.lightSources) do
+        if v == lightSource then ind = i end
+    end
+
+    if ind ~= -1 then
+        table.remove(self.lightSources,  ind)
+    end
+end
+
 
 function LightingShader:addLightSource(lightSource)
 
@@ -44,8 +55,8 @@ end
 
 --Will firstly check if it is on the camera bounds
 function LightingShader:setupVariables()
-
     self.shader:send("CAM_POSITION", {self.camera.x, self.camera.y})
+    self.shader:send("CAM_SCALE", {self.camera.scale, self.camera.scale})
     self.shader:send("LIGHTS_COUNT", #self.lightSources)
     for i, v in ipairs(self.lightSources) do
         self:sendLight(v, i-1) --Starts at 0 on C

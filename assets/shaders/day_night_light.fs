@@ -31,6 +31,7 @@ extern Light LIGHTS[MAX_LIGHTS];
 extern int LIGHTS_COUNT;
 extern vec2 SCREEN;
 extern vec2 CAM_POSITION;
+extern vec2 CAM_SCALE;
 
 
 
@@ -60,8 +61,8 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
     
     pixel = pixel*vec4(out_col, 1);
     
-
-    vec2 norm_screen = (CAM_POSITION+screen_coords);
+    vec2 _c = vec2(CAM_POSITION);
+    vec2 norm_screen = (CAM_POSITION+(screen_coords/CAM_SCALE.x));
     vec3 diffuse = vec3(0);
 
     foreach(i, LIGHTS_COUNT)

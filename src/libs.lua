@@ -33,6 +33,7 @@ require "shared.tweening.ActionSpawn"
 require "shared.tweening.mov_actions"
 require "shared.tweening.tint_actions"
 require "shared.tweening.ActionCallback"
+require "shared.tweening.ActionDelay"
 
 --Hump
 require "shared.hump.camera_extra"

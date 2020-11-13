@@ -21,6 +21,7 @@ function Player:initialize(map, camera)
 
     self.speed = 250
     self.isDeer = true
+    self.canInput = true
     self.isStill = true
     self.isCameraFollowing = true
     self:loopPlay("deer_down")
@@ -65,6 +66,9 @@ function Player:inputCollider(world)
 end
 
 function Player:input(dt)
+    if not self.canInput then
+        return
+    end
     local moveX = 0
     local moveY = 0
 
@@ -147,6 +151,21 @@ function Player:interaction(spawner)
             end
         end
     end
+
+    local rec = {x=CAVE.x-lg.quarterWidth, y=CAVE.y-lg.quarterHeight, width=32, height=32}
+    if rectIntersectsRect(next, rec) or rectIntersectsRect(current, rec) then
+        if(#self.followingAnimals > 0) then
+            local this = self
+            self.canInput = false
+            ACT:pushAction(ActionSequence({
+                self.followingAnimals[1]:enterCave(),
+                ActionCallback(function ()
+                    this.canInput = true
+                    this.followingAnimals[1] = nil
+                end)
+            }))
+        end
+    end
 end
 
 function Player:alternateForm()
@@ -176,8 +195,8 @@ function Player:update(dt)
         cam_lockX(self.camera, math.min(math.max(self.x, 0), self.mapWidth - love.graphics.halfWidth))
         cam_lockY(self.camera, math.min(math.max(self.y, 0), self.mapHeight - love.graphics.halfHeight))
     end
-    self.lightSource.position[1] = self.x + love.graphics.getWidth()/2 --Half screen + half size
-    self.lightSource.position[2] = self.y + love.graphics.getHeight()/2 --Half screen + half size
+    self.lightSource.position[1] = self.x + lg.quarterWidth --Half screen + half size
+    self.lightSource.position[2] = self.y + lg.quarterHeight --Half screen + half size
 
 end
 
@@ -200,4 +219,5 @@ function Player:draw()
     end
 
     STI_AnimatedSpriteObject.draw(self)
+
 end

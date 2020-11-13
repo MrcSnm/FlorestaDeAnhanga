@@ -25,5 +25,5 @@ function ActionSpawn:update(dt)
         end
     end
 
-    return self.totalFinished > #self.actions
+    return self.totalFinished == #self.actions
 end

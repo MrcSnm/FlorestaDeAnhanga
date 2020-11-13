@@ -68,6 +68,7 @@ function Animal:initialize(animalType, x, y, colliderName)
     self.isStill = false
     self.stopChangingDir = false
     self.followTarget = nil
+    self.isEnteringCave = false
 
     self:changeDir()
     self:setScale(animalType.scale)
@@ -81,24 +82,40 @@ function Animal:initialize(animalType, x, y, colliderName)
     end,
     function() return this.stopChangingDir end)
 
+    self.lightSource=
+    {
+        position = {self.x, self.y},
+        diffuse = {1,1,1, 1},
+        power = 2000,
+        falloff = 1,
+        minThreshold = 20, --If lesser, color = power
+        maxThreshold = 500 --If higher, color = 0
+    }
 end
 
 
 function Animal:enterCave()
     local this = self
-    ACT:pushAction(ActionSequence({
+    self.isEnteringCave = true
+    return ActionSequence({
         ActionCallback(function()
-            this:loopPlay("left")
+            this:loopPlay("left", false)
         end),
-        MoveToAction(2, CAVE.x, 0, self),
+        MoveToAction(1, CAVE.x-lg.quarterWidth, self.y, self),
         ActionCallback(function()
-            this:loopPlay("up")
+            this:loopPlay("up", false)
         end),
         ActionSpawn({
-            MoveToAction(2, 0, CAVE.y, self),
-            ActionTintTo(2, {r=0, g=0,b=0,a=0}, self)
-        })
-    }))
+            MoveToAction(1, CAVE.x-lg.quarterWidth, CAVE.y-lg.quarterHeight*1.4, self),
+            ActionSequence({
+                ActionDelay(0.75),
+                ActionTintTo(0.25, {r=1, g=1,b=1,a=0}, self)
+            })
+        }),
+        ActionCallback(function ()
+            LIGHTING_SHADER:removeLightSource(this.lightSource)
+        end)
+    })
 end
 
 function Animal:inputCollider()
@@ -109,6 +126,7 @@ function Animal:startFollowing(target)
     assert(target.x ~=nil and target.y~=nil, "Target does not have any position")
     self.followTarget = target
     self.stopChangingDir = true
+    LIGHTING_SHADER:addLightSource(self.lightSource)
     self:onRemove()
 
 
@@ -189,16 +207,20 @@ function Animal:walk(dt)
         self.y = tempY
     end
 
+
+
 end
 
 function Animal:update(dt)
     AnimatedSprite.update(self, dt)
     if self.followTarget == nil then
         self:walk(dt)
-    else
+    elseif not self.isEnteringCave then
         self:follow(self.followTarget, dt)
     end
     self.changeDirTimer:update(dt)
+    self.lightSource.position[1] = self.x+lg.quarterWidth
+    self.lightSource.position[2] = self.y+lg.quarterHeight
 end
 
 function Animal:draw()

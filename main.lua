@@ -65,8 +65,10 @@ end
 
 function love.keypressed(key)
     global_keypress(key)
-    if key == "return" then
-        player:interaction(ANIMAL_SPAWNER)
+    if player.canInput then
+        if key == "return" then
+            player:interaction(ANIMAL_SPAWNER)
+        end
     end
 end
 
