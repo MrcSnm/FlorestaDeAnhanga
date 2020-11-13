@@ -13,3 +13,6 @@
 [submodule "external/bump"]
 	path = external/bump
 	url = https://github.com/kikito/bump.lua
+[submodule "external/tween"]
+	path = external/tween
+	url = https://github.com/kikito/tween.lua

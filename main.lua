@@ -5,6 +5,7 @@ function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
     WORLD = bump.newWorld()
     GAME_MAP = sti(GAME_MAP_NAME, {"bump"})
+    CAVE = STI_Object(GAME_MAP, "Cave")
     GAME_MAP:bump_init(WORLD)
 
     CAMERA = Camera(0,0)
@@ -25,7 +26,15 @@ function love.load()
 
     LIGHTING_SHADER:addLightSource(player.lightSource)
 
-    printKeys(COLLISION_LAYERS[1])
+
+    AMBIENCE = Assets.getMusic("Forest_Ambience.mp3")
+    NATURE = Assets.getMusic("grip of nature.ogg")
+    NATURE:setLooping(true)
+    NATURE:setVolume(0.2)
+    NATURE:play()
+    AMBIENCE:setLooping(true)
+    AMBIENCE:play()
+
     CAMERA:zoom(2)
 
 end
@@ -102,7 +111,7 @@ function love.draw()
 
         hump_x_sti_renderTopLayers(GAME_MAP_TOP_LAYERS, GAME_MAP, CAMERA)
     end)
-        hump_x_sti_showCamBounds(CAMERA, GAME_MAP)
+        -- hump_x_sti_showCamBounds(CAMERA, GAME_MAP)
 
     global_draw_overlay()
 

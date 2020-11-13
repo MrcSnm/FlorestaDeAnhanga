@@ -83,6 +83,10 @@ function Animal:initialize(animalType, x, y, colliderName)
 
 end
 
+
+function Animal:enterCave()
+end
+
 function Animal:inputCollider()
     self.world:add(self.collider, self.x, self.y, self.map.tilewidth/1.25, self.map.tileheight/1.25)
 end
@@ -199,7 +203,6 @@ function Animal:follow(target, dt)
     local dx = math.floor(target.x - self.x + offsetX)
     local dy = math.floor(target.y - self.y + offsetY)
 
-    print(dx, dy)
     if math.abs(dx) > offsetX then
         if dx > 0 then --Move
             self.currentDir = DIRECTIONS.RIGHT

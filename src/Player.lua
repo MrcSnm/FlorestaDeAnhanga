@@ -1,4 +1,6 @@
 Player = Class("Player", STI_AnimatedSpriteObject)
+
+
 local lg = love.graphics
 
 function Player:initialize(map, camera)
@@ -53,6 +55,8 @@ function Player:initialize(map, camera)
 
     self.followingAnimals = {}
     self:inputCollider(WORLD)
+
+    ACT:pushAction(MoveByAction(2, -200, 0, self))
 
 end
 

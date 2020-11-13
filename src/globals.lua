@@ -1,7 +1,20 @@
 --Map Related
 GAME_MAP = nil
 GAME_MAP_NAME = "assets/maps/main_map.lua"
+
+CAVE =  nil
 player = nil
+
+
+SPEECH = 
+{
+    {"Sinto que este local aos poucos se torna mais quente"},
+    {"Acho que deveria me preparar para o pior..."},
+    {"Vou tentar levar meus companheiros para um local seguro"},
+    {"Acredito que no noroeste daqui existe uma caverna"},
+    {"Talvez seja uma boa ideia"},
+    {"Devo tentar ajudar o maximo que eu conseguir neste tempo"}
+}
 
 
 LEVELS = {
@@ -28,6 +41,9 @@ function global_init()
     love.keyboard.keysPressed = {} 
     love.mouse.hasBeenPressed = false
     math.randomseed(os.time())
+    ACT = ActionManager()
+
+
 
 end
 
@@ -39,6 +55,7 @@ end
 
 function global_update(dt)
     Talkies.update(dt)
+    ACT:update(dt)
 end
 
 function global_keypress(key)

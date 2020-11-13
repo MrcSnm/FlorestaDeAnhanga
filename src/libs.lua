@@ -1,6 +1,7 @@
 -- Externals
 sti = require "external.simple_tiled_implementation.sti"
 bump = require "external.bump.bump"
+tween = require "external.tween.tween"
 
 Talkies = require "external.Talkies.talkies"
 Camera = require "external.hump.camera"
@@ -22,6 +23,13 @@ require "shared.sti.sti_help" --Provides sti help for finding objs
 require "shared.sti.STI_Object" --Provides sti base class for objects
 require "shared.sti.STI_SpriteObject" --Provides sti class for sprites
 require "shared.sti.STI_AnimatedSpriteObject" --Provides sti class for sprites
+
+--Tweening
+
+require "shared.tweening.Action"
+require "shared.tweening.ActionManager"
+require "shared.tweening.ActionSequence"
+require "shared.tweening.MoveByAction"
 
 --Hump
 require "shared.hump.camera_extra"
