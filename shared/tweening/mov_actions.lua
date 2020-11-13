@@ -15,6 +15,8 @@ function MoveByAction:initialize(dur, x, y, sprite)
         sprite.x = sprite.x + this.lastX
         sprite.y = sprite.y + this.lastY
     end)
+end
 
-
+function MoveToAction(dur, x, y, sprite)
+    return MoveByAction(dur, x-sprite.x, y-sprite.y, sprite)
 end

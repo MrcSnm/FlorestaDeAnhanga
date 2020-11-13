@@ -85,10 +85,16 @@ end
 
 
 function Animal:enterCave()
-
+    local this = self
     ACT:pushAction(ActionSequence({
-        MoveByAction(2, CAVE.x, 0, self),
-        MoveByAction(2, 0, CAVE.y, self)
+        ActionCallback(function()
+            this:loopPlay("left")
+        end),
+        MoveToAction(2, CAVE.x, 0, self),
+        ActionCallback(function()
+            this:loopPlay("up")
+        end),
+        MoveToAction(2, 0, CAVE.y, self)
     }))
 end
 

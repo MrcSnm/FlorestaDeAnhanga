@@ -12,6 +12,13 @@ function Sprite:initialize()
     self.scaleY = 1
     self.originX = 0.5
     self.originY = 0.5
+
+    self._color = {r=1,g=1,b=1,a=self.opacity}
+end
+
+function Sprite:setColor(r,g,b,a)
+    self._color = {r=r,g=g,b=b,a=a}
+    self.opacity = a
 end
 
 function Sprite:setQuad(quad)
@@ -61,12 +68,12 @@ local function manageOpacity(sprite)
     local r, g, b, a = love.graphics.getColor()
 
     local hasChange = false
-    if(a ~= sprite.opacity) then
+    if(a ~= sprite.opacity or r ~= sprite._color.r or g ~= sprite._color.g or b ~= sprite._color.b) then
         love.graphics.setColor(r,g,b, sprite.opacity)
         hasChange = true
     end
 
-    return hasChange, r, g, b, sprite.opacity
+    return hasChange, sprite._color.r, sprite._color.g, sprite._color.b, sprite.opacity
 end
 
 function Sprite:draw()
