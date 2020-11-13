@@ -101,9 +101,6 @@ end
 function Animation:pingPongPlay(animName, ignoreIfSame)
     self:play(animName, ignoreIfSame)
     self.isPingPong = true
-    if restart then
-        self._pingPongDir = 1
-    end
 end
 
 function Animation:stop(restart)

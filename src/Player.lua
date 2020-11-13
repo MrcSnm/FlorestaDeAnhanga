@@ -106,6 +106,16 @@ function Player:input(dt)
 
 end
 
+
+function Player:getNextToFollow(animal)
+    table.insert(self.followingAnimals, animal)
+    if #self.followingAnimals == 1 then
+        return self
+    else
+        return self.followingAnimals[#self.followingAnimals-1]
+    end
+end
+
 function Player:interaction(spawner)
     local x = self.x
     local y = self.y
@@ -127,7 +137,10 @@ function Player:interaction(spawner)
     for i, v in ipairs(spawner.animals) do
         local rec = {x = v.x, y = v.y,  width = 32, height = 32}
         if rectIntersectsRect(current,  rec) or rectIntersectsRect(next, rec) then
-            print("Intersected with "..v.animalType.animalType)
+            if(v.followTarget == nil) then
+                v:startFollowing(self:getNextToFollow(v))
+                return
+            end
         end
     end
 end

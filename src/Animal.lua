@@ -66,7 +66,8 @@ function Animal:initialize(animalType, x, y, colliderName)
     self.movespeed = animalType.movespeed
     self.isMoving = true
     self.isStill = false
-    self.stopMoving = false
+    self.stopChangingDir = false
+    self.followTarget = nil
 
     self:changeDir()
     self:setScale(animalType.scale)
@@ -78,12 +79,21 @@ function Animal:initialize(animalType, x, y, colliderName)
         this:changeDir()
         timer.countdown = math.max(math.random()*4, 0.25)
     end,
-    function() return this.stopMoving end)
+    function() return this.stopChangingDir end)
 
 end
 
 function Animal:inputCollider()
     self.world:add(self.collider, self.x, self.y, self.map.tilewidth/1.25, self.map.tileheight/1.25)
+end
+
+function Animal:startFollowing(target)
+    assert(target.x ~=nil and target.y~=nil, "Target does not have any position")
+    self.followTarget = target
+    self.stopChangingDir = true
+    self:onRemove()
+
+
 end
 
 function Animal:onRemove()
@@ -106,30 +116,70 @@ function Animal:walk(dt)
     elseif dir == DIRECTIONS.LEFT then
         dx = -self.movespeed
         self.currentMovement = "left"
-    else
+    elseif dir == DIRECTIONS.RIGHT then
         dx = self.movespeed
         self.currentMovement = "right"
     end
 
-    self:loopPlay(self.currentMovement, self.isRunning)
+    if self.currentDir ~= -1 then
+        self:loopPlay(self.currentMovement, self.isRunning)
+    else
+        self:stopAtFrame(2)
+    end
+
+
     local tempX = self.x + dx*dt
     local tempY = self.y + dy*dt
-    local nX, nY, col, len = self.world:move(self.collider, tempX+lg.quarterWidth+16,  tempY+lg.quarterHeight+30)
 
-
-    self.isStill = len > 0
-    if nX > 0 and nX < self.map.width*self.map.tilewidth then
-        self.x = nX-lg.quarterWidth-16
+    
+   if self.followTarget ~= nil then
+        local offsetX = 16
+        local offsetY = 16
+        local tgx = self.followTarget.x
+        local tgy = self.followTarget.y
+        if self.currentDir == DIRECTIONS.DOWN then
+            if tempY > tgy - offsetY then
+                tempY = tgy - offsetY
+            end
+        elseif self.currentDir == DIRECTIONS.UP then
+            if tempY < tgy - offsetY then
+                tempY = self.y
+            end
+        elseif self.currentDir == DIRECTIONS.LEFT then
+            if tempX < tgx + offsetX then
+                tempX = self.x
+            end
+        elseif self.currentDir == DIRECTIONS.RIGHT then
+            if tempX > tgx - offsetX then
+                tempX = self.x
+            end
+        end
     end
-    if nY > 0 and nY < self.map.height*self.map.tileheight then
-        self.y = nY-lg.quarterHeight-30
+
+    local len = 0
+    if self.followTarget == nil then
+        local nX, nY, col, len = self.world:move(self.collider, tempX+lg.quarterWidth+16,  tempY+lg.quarterHeight+30)
+        self.isStill = len > 0
+        if nX > 0 and nX < self.map.width*self.map.tilewidth then
+            self.x = nX-lg.quarterWidth-16
+        end
+        if nY > 0 and nY < self.map.height*self.map.tileheight then
+            self.y = nY-lg.quarterHeight-30
+        end
+    else
+        self.x = tempX
+        self.y = tempY
     end
 
 end
 
 function Animal:update(dt)
     AnimatedSprite.update(self, dt)
-    self:walk(dt)
+    if self.followTarget == nil then
+        self:walk(dt)
+    else
+        self:follow(self.followTarget, dt)
+    end
     self.changeDirTimer:update(dt)
 end
 
@@ -142,18 +192,30 @@ function Animal:draw()
     AnimatedSprite.draw(self)
 end
 
-function Animal:follow(target)
+function Animal:follow(target, dt)
 
-    local dx = target.x - self.x
-    local dy = target.y - self.y
+    local offsetX = 24
+    local offsetY = 24
+    local dx = math.floor(target.x - self.x + offsetX)
+    local dy = math.floor(target.y - self.y + offsetY)
 
-    if math.abs(dx) > math.abs(dy) then
+    print(dx, dy)
+    if math.abs(dx) > offsetX then
         if dx > 0 then --Move
-        else
+            self.currentDir = DIRECTIONS.RIGHT
+        elseif dx < 0 then
+            self.currentDir = DIRECTIONS.LEFT
         end
-    else
-        if dx > 0 then
-        else
+    elseif math.abs(dy) > offsetY then
+        if dy > 0 then
+            self.currentDir = DIRECTIONS.DOWN
+        elseif dy < 0 then
+            self.currentDir = DIRECTIONS.UP
         end
+    else --Equal case
+        self.currentDir = -1
     end
+
+
+    self:walk(dt)
 end

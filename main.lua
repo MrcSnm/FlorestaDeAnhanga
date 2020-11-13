@@ -21,6 +21,7 @@ function love.load()
     GAME_MAP_TOP_LAYERS = {}
     COLLISION_LAYERS = getCollisionLayers(GAME_MAP, {"holes", "trees", "holes2", "water"})
     table.insert(GAME_MAP_TOP_LAYERS, separateLayer(GAME_MAP, "trees_top"))
+    table.insert(GAME_MAP_TOP_LAYERS, separateLayer(GAME_MAP, "trees2"))
 
     LIGHTING_SHADER:addLightSource(player.lightSource)
 
