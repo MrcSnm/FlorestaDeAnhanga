@@ -37,6 +37,14 @@ function love.load()
 
     CAMERA:zoom(2)
 
+    ACT:pushAction(ActionSequence({
+        ActionDelay(0.5),
+        ActionCallback(function()
+        global_InitialSpeech(player)
+        end)
+    }))
+
+
 end
 
 function checkCollision(map, collisionLayers, x, y)

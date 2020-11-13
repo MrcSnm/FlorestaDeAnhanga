@@ -8,13 +8,32 @@ player = nil
 
 SPEECH = 
 {
-    {"Sinto que este local aos poucos se torna mais quente"},
+    {"Sinto que este local aos poucos se torna mais quente."},
     {"Acho que deveria me preparar para o pior..."},
-    {"Vou tentar levar meus companheiros para um local seguro"},
-    {"Acredito que no noroeste daqui existe uma caverna"},
-    {"Talvez seja uma boa ideia"},
-    {"Devo tentar ajudar o maximo que eu conseguir neste tempo"}
+    {"Vou tentar levar meus companheiros para um local seguro."},
+    {"Acredito que esta caverna ao lado possa ser interessante."},
+    {"Talvez seja uma boa ideia."},
+    {"Devo tentar meu melhor para ajudar contra este clima..."}, --6
+    {".--.--."}, --7
+    {"Acredito que meu tempo se limite a esta noite."}, --8
+    {"Devo terminar antes do amanhecer, sinto uma onda intensa chegando"} --9
 }
+
+function global_InitialSpeech(anhanga)
+
+    anhanga.canInput = false
+    anhanga:think(SPEECH[1][1])
+    anhanga:think(SPEECH[2][1])
+    anhanga:say  (SPEECH[3][1])
+    anhanga:say  (SPEECH[4][1])
+    anhanga:think(SPEECH[5][1])
+    anhanga:say(SPEECH[6][1])
+    anhanga:think(SPEECH[7][1])
+    anhanga:think(SPEECH[8][1])
+    anhanga:say (SPEECH[9][1], function()
+        anhanga.canInput = true
+    end)
+end
 
 
 LEVELS = {

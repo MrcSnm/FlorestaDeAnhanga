@@ -49,7 +49,7 @@ require "shared.Assets"
 require "shared.Timer"
 require "shared.collision"
 push = require "shared.push"
-require "shared.slam"
+--  require "shared.slam"
 
 
 

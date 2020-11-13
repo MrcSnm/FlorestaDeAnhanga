@@ -89,9 +89,26 @@ function Player:addToHistory()
 
 
     end
-
-
     
+end
+
+function Player:think(text)
+    Talkies.say("Anhanga", text, {
+        image = Assets.getSprite("Anhanguarosto.png"),
+        talkSound = Assets.getSfx("talk_sound.mp3"),
+        talkSpeed = "medium",
+        padding = 20,
+        typedNotTalked = false
+    })
+end
+function Player:say(text, onComplete)
+    Talkies.say("Anhanga", text, {
+        image = Assets.getSprite("Anhanguarostoaberto.png"),
+        oncomplete = onComplete,
+        talkSound = Assets.getSfx("talk_sound.mp3"),
+        padding = 20,
+        typedNotTalked = false
+    })
 end
 
 
@@ -182,12 +199,14 @@ function Player:interaction(spawner)
 
     local current = {x = x, y = y, width = 32, height = 32}
     local next = {x = nX, y = nY, width = 32, height = 32}
-    for i, v in ipairs(spawner.animals) do
-        local rec = {x = v.x, y = v.y,  width = 32, height = 32}
-        if rectIntersectsRect(current,  rec) or rectIntersectsRect(next, rec) then
-            if(v.followTarget == nil) then
-                v:startFollowing(self:getNextToFollow(v))
-                return
+    if #self.followingAnimals == 0 then
+        for i, v in ipairs(spawner.animals) do
+            local rec = {x = v.x, y = v.y,  width = 32, height = 32}
+            if rectIntersectsRect(current,  rec) or rectIntersectsRect(next, rec) then
+                if(v.followTarget == nil) then
+                    v:startFollowing(self:getNextToFollow(v))
+                    return
+                end
             end
         end
     end
