@@ -94,7 +94,10 @@ function Animal:enterCave()
         ActionCallback(function()
             this:loopPlay("up")
         end),
-        MoveToAction(2, 0, CAVE.y, self)
+        ActionSpawn({
+            MoveToAction(2, 0, CAVE.y, self),
+            ActionTintTo(2, {r=0, g=0,b=0,a=0}, self)
+        })
     }))
 end
 
