@@ -1,8 +1,8 @@
 AnimalSpawner = Class("AnimalSpawner")
 
 SPAWN_AREAS_NAME = "spawns"
-INITIAL_ANIMAL_COUNT = 200
-function AnimalSpawner:initialize(map)
+INITIAL_ANIMAL_COUNT = 100
+function AnimalSpawner:initialize(map, interface)
     
     --Spawn areas array
     self.spawnAreas = {}
@@ -11,6 +11,8 @@ function AnimalSpawner:initialize(map)
     --Options Array
     self.options = {}
     self.activeAnimals = 0
+
+    self.interface = interface
 
     self.currentID = 0
 
@@ -39,10 +41,12 @@ function AnimalSpawner:initialize(map)
     for i = 1, INITIAL_ANIMAL_COUNT do
         self:randSpawn()
     end
+
+    interface:setMaxAnimals(self.activeAnimals)
 end
 
 function AnimalSpawner:spawn(x, y, animalType)
-    table.insert(self.animals, Animal(animalType, x, y, "Animal_"..self.currentID))
+    table.insert(self.animals, Animal(animalType, x, y, "Animal_"..self.currentID, self.interface))
     self.activeAnimals = self.activeAnimals + 1
     self.currentID = self.currentID + 1
 end

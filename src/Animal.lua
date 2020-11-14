@@ -38,14 +38,14 @@ ANIMAL_TYPES =
 {
     --                                Name     Col, Row, Col, Row, TileW, TileH,  Movespeed
     ["passaro"] = createAnimalType  ("passaro",   3, 4, 4, 2, 48, 48, 125),
-    ["pintinho"] = createAnimalType ("pintinho",  3, 4, 4, 2, 48, 48, 100),
+    ["pintinho"] = createAnimalType ("pintinho",  3, 4, 4, 2, 32, 32, 100),
     ["rato"] = createAnimalType     ("rato",      3, 4, 4, 2, 48, 48, 150),
     ["sapo"] = createAnimalType     ("sapo",      3, 4, 4, 2, 48, 48, 75),
     ["tartaruga"] = createAnimalType("tartaruga", 3, 4, 4, 2, 48, 48, 50, 1)
 }
 
 
-function Animal:initialize(animalType, x, y, colliderName)
+function Animal:initialize(animalType, x, y, colliderName, interface)
 
     self.animalType = animalType
     self.palleteChoice = math.random(animalType.palleteSize)
@@ -59,6 +59,7 @@ function Animal:initialize(animalType, x, y, colliderName)
     --Just need to finish fastly
     self.map = GAME_MAP 
     self.world = WORLD
+    self.interface = interface
     self.collider = {name = colliderName}
     self:inputCollider()
 
@@ -124,6 +125,7 @@ function Animal:enterCave()
         }),
         ActionCallback(function ()
             LIGHTING_SHADER:removeLightSource(this.lightSource)
+            this.interface:addAnimal(this.animalType)
         end)
     })
 end

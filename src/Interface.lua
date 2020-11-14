@@ -5,17 +5,38 @@ function Interface:initialize(timeContainer)
     Sprite.initialize(self)
     self.timeContainer = timeContainer
     self.currentTime = 0
+    self.animalsSaved = {}
 
     self.currentTexture = Assets.getSprite("clock.png")
 
+    self.animalSprite = Sprite()
+    local texture = Assets.getSprite("pintinho.png")
+    self.animalSprite.currentTexture = texture
+    self.animalSprite:setQuad(love.graphics.newQuad(texture:getWidth()-32*2, 0,32,32, texture:getDimensions())) --Pintinho branco parado
+    self.animalSprite:setScale(2)
+
+    self.animalSprite:setPosition(love.graphics.getWidth() - 250, -20)
+
     self.gameOverTime = 15
     self.secPerHour = 20
+    self.maxAnimals = 0
+end
+
+
+function Interface:addAnimal(animalType)
+    if self.animalsSaved[animalType.animalType] == nil then
+        self.animalsSaved[animalType.animalType] = 0
+    end
+    self.animalsSaved[animalType.animalType] = self.animalsSaved[animalType.animalType]+1
+    print(animalType.animalType)
 end
 
 
 function Interface:updateClock(dt)
     self.currentTime = self.timeContainer.time
 end
+
+
 function Interface:update(dt)
     self:updateClock()
 end
@@ -69,6 +90,18 @@ function Interface:setGameOverTime(gameOverTime)
     self.gameOverTime = gameOverTime
 end
 
+function Interface:setMaxAnimals(maxAnimals)
+    self.maxAnimals = maxAnimals
+end
+
+function Interface:getAnimalsSavedCount()
+    local ret = 0
+    for k, v in pairs(self.animalsSaved) do
+        ret = ret + v
+    end
+    return ret
+end
+
 function Interface:setSecondsPerHour(secPerHour)
 
 end
@@ -77,4 +110,8 @@ function Interface:draw()
     Sprite.draw(self)
     -- self:drawMin()
     self:drawHour()
+    self.animalSprite:draw()
+    love.graphics.setFont(GAME_INTERFACE_FONT)
+    love.graphics.print(tostring(self:getAnimalsSavedCount()).."/"..tostring(self.maxAnimals),
+                        self.animalSprite.x + self.animalSprite:getWidth()*1.5, 15)
 end

@@ -6,7 +6,8 @@ Assets =
     sfxPath = "sfx",
     musicPath = "musics",
     shaderPath = "shaders",
-    _sfxs={},_musics={},_images={},_sprites={}, _shaders={},
+    fontPath = "fonts",
+    _sfxs={},_musics={},_images={},_sprites={}, _shaders={}, _fonts={},
 
     getSfx = function(sfxName)
         local str = Assets.path.."/"..Assets.sfxPath.."/"..sfxName
@@ -38,6 +39,14 @@ Assets =
             Assets._sprites[str] = love.graphics.newImage(str)
         end
         return  Assets._sprites[str];
+    end,
+
+    getFont = function(fontName, size)
+        local str = Assets.path.."/"..Assets.fontPath.."/"..fontName
+        if(Assets._fonts[str..tostring(size)] == nil) then
+            Assets._fonts[str..tostring(size)] = love.graphics.newFont(str, size)
+        end
+        return  Assets._fonts[str..tostring(size)];
     end,
 
     getShader = function(shaderName)

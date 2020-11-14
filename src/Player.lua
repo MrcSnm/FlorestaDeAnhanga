@@ -93,7 +93,7 @@ function Player:addToHistory()
 end
 
 function Player:think(text)
-    Talkies.say("Anhanga", text, {
+    Talkies.say("Anhanga", "\n"..text, {
         image = Assets.getSprite("Anhanguarosto.png"),
         talkSound = Assets.getSfx("talk_sound.mp3"),
         talkSpeed = "medium",
@@ -102,7 +102,7 @@ function Player:think(text)
     })
 end
 function Player:say(text, onComplete)
-    Talkies.say("Anhanga", text, {
+    Talkies.say("Anhanga", "\n"..text, {
         image = Assets.getSprite("Anhanguarostoaberto.png"),
         oncomplete = onComplete,
         talkSound = Assets.getSfx("talk_sound.mp3"),

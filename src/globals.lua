@@ -4,6 +4,9 @@ GAME_MAP_NAME = "assets/maps/main_map.lua"
 
 CAVE =  nil
 player = nil
+ANIMALS_SAVED = 0
+GAME_INTERFACE_FONT = Assets.getFont("manaspc.ttf", 32)
+TALKIES_FONT = Assets.getFont("manaspc.ttf", 24)
 
 
 SPEECH = 
@@ -70,6 +73,8 @@ end
 function global_StartTalkiesTheme()
     Talkies.optionCharacter = '>'
     Talkies.backgroundColor = {0, 0, 0, 0.6}
+    Talkies.font = TALKIES_FONT
+    Talkies.padding = 40
 
 end
 

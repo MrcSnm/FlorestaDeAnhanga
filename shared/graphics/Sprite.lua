@@ -2,6 +2,8 @@ Sprite = Class"Sprite"
 
 function Sprite:initialize()
     self.currentTexture = nil
+    self.width = 0
+    self.height = 0
     self.currentQuad = nil
     self.x = 0
     self.y = 0
@@ -16,6 +18,12 @@ function Sprite:initialize()
     self._color = {r=1,g=1,b=1,a=self.opacity}
 end
 
+function Sprite:setTexture(texture)
+    self.currentTexture = texture
+    self.width = texture:getWidth()
+    self.height = texture:getHeight()
+end
+
 function Sprite:setColor(r,g,b,a)
     self._color = {r=r,g=g,b=b,a=a}
     self.opacity = a
@@ -23,6 +31,16 @@ end
 
 function Sprite:setQuad(quad)
     self.currentQuad = quad
+    local x,y,w,h = quad:getViewport()
+    self.width = w
+    self.height = h
+end
+
+function Sprite:getWidth()
+    return self.width*self.scaleX
+end
+function Sprite:getHeight()
+    return self.width*self.scaleY
 end
 
 function Sprite:setRotationDegrees(degree)

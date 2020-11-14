@@ -15,7 +15,10 @@ function MainState:enter()
     CAMERA:lookAt(player.x, player.y)
 
     LIGHTING_SHADER = DayNightLightShader(CAMERA, GAME_MAP)
-    ANIMAL_SPAWNER = AnimalSpawner(GAME_MAP)
+    CLOCK_INTERFACE = Interface(LIGHTING_SHADER.daynight)
+
+
+    ANIMAL_SPAWNER = AnimalSpawner(GAME_MAP, CLOCK_INTERFACE)
     GAME_MAP.layers["objects"].visible = false
     GAME_MAP.layers["spawns"].visible = false
 
@@ -44,7 +47,6 @@ function MainState:enter()
         end)
     }))
 
-    CLOCK_INTERFACE = Interface(LIGHTING_SHADER.daynight)
 end
 
 function MainState:update(dt)
