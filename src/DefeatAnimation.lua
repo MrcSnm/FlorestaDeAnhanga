@@ -21,6 +21,12 @@ function DefeatAnimation:startDefeat(player)
     local quake = Assets.getSfx("earthquake.ogg")
     quake:setLooping(true)
     quake:play()
+
+    --23 seconds
+    local gameOver = Assets.getMusic("del_erad.ogg")
+    NATURE:stop()
+    AMBIENCE:stop()
+    gameOver:play()
     ACT:pushAction(ActionSequence({
 
         ActionSpawn({
@@ -38,8 +44,23 @@ function DefeatAnimation:startDefeat(player)
         }),
         ActionCallback(function()
             quake:stop()
-            NATURE:stop()
-            AMBIENCE:stop()
+            gameOver:play()
+            Talkies.say("", "Seria este o fim?")
+        end),
+        --Passaram-se 6 segundos ja
+        ActionDelay(13-6),
+        --13 segundos levanta a musica
+        ActionCallback(function ()
+            Talkies.onAction()
+            Talkies.say("", "Ou talvez uma nova oportunidade...?")
+        end),
+        ActionDelay(9),
+        ActionCallback(function ()
+            Talkies.onAction()
+        end),
+        ActionDelay(1),
+        ActionCallback(function ()
+            gameOver:stop()
             gStateMachine:change("menu")
         end)
     }))

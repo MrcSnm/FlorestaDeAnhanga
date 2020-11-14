@@ -95,6 +95,7 @@ function MainState:update(dt)
 end
 
 function MainState:render()
+    love.graphics.clear()
     LIGHTING_SHADER:draw(function()
         GAME_MAP:draw(-CAMERA.x, -CAMERA.y, CAMERA.scale, CAMERA.scale) --Currently only ground level 
         CAMERA:attach()
