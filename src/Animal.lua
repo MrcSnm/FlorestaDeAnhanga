@@ -103,17 +103,17 @@ function Animal:enterCave()
         ActionDelay(0.1),
         ActionCallback(function()
             this.isStill = false
-            
+            this:reset()
             if CAVE.x-lg.quarterWidth*1.125 > self.x then
-                this:loopPlay("right")
+                self.currentMovement = "right"
             else
-                this:loopPlay("left")
+                self.currentMovement = "left"
             end
         end),
         MoveToAction(1, CAVE.x-lg.quarterWidth*1.125, self.y, self),
         ActionCallback(function()
             this.isStill = false
-            this:loopPlay("up")
+            self.currentMovement = "up"
         end),
         ActionSpawn({
             MoveToAction(1, CAVE.x-lg.quarterWidth*1.125, CAVE.y-lg.quarterHeight*1.4, self),
@@ -194,8 +194,8 @@ function Animal:walk(dt)
     local tempY = self.y + dy*dt
 
     
-    local len = 0
     if self.followTarget == nil then
+        local len = 0
         local nX, nY, col, len = self.world:move(self.collider, tempX+lg.quarterWidth+16,  tempY+lg.quarterHeight+30)
         self.isStill = len > 0
         if nX > 0 and nX < self.map.width*self.map.tilewidth then
@@ -262,13 +262,11 @@ function Animal:moveTo(tileX, tileY)
             x = x - offset
             table.insert(movements, ActionCallback(function()
                 self.currentMovement = "right"
-                this:loopPlay("right")
             end))
         else
             x = x + offset
             table.insert(movements, ActionCallback(function()
                 self.currentMovement = "left"
-                this:loopPlay("left")
             end))
         end
     elseif(math.abs(diffX) < math.abs(diffY)) then
