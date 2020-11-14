@@ -50,6 +50,7 @@ function MainState:enter()
     }))
 
     global_pushTimedSpeech(CLOCK_INTERFACE, player)
+    global_pushAchievements(CLOCK_INTERFACE)
 
 end
 

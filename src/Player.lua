@@ -144,6 +144,11 @@ function Player:inputCollider(world)
     world:add(self.collider, self.x, self.y, self.map.tilewidth, self.map.tileheight)
 end
 
+function Player:disableInput()
+    self.canInput = false
+    self.isStill = true
+end
+
 function Player:input(dt)
     if not self.canInput then
         return

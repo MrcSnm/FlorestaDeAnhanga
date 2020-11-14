@@ -32,6 +32,16 @@ TIMED_SPEECH =
     {15, "Este foi o melhor que pude fazer de verdade? Talvez, este seja o limite, o amanhecer do fim..."}
 }
 
+SAVE_SPEECH =
+{
+    {5, "Aos poucos, sinto que minha ajuda se torna importante..."},
+    {15, "Estes poucos se tornam nosso futuro."},
+    {25, "Nossa sorte se encontra na profundidade da caverna."},
+    {50, "Um grande feito para o melhor da natureza."},
+    {75, "O que? Mas como? Isto deveria ser irreal."},
+    {100, "Todos os animais foram salvos... Mas a que custo? Agora apenas me resta apenas esperar o fim de tudo."}
+}
+
 function global_pushTimedSpeech(clock, player)
 
     for i,  v in ipairs(TIMED_SPEECH) do
@@ -42,10 +52,19 @@ function global_pushTimedSpeech(clock, player)
         end))
     end
 end
+function global_pushAchievements(animals)
+    for i,  v in ipairs(SAVE_SPEECH) do
+        gEventManager:pushEvent(Event("Conquista"..tostring(i), function ()
+            return animals:getAnimalsSavedCount() >= v[1]
+        end, function ()
+            player:think(v[2])
+        end))
+    end
+end
 
 function global_InitialSpeech(anhanga)
 
-    anhanga.canInput = false
+    anhanga:disableInput()
     anhanga:think(SPEECH[1][1])
     anhanga:think(SPEECH[2][1])
     anhanga:say  (SPEECH[3][1])

@@ -17,7 +17,7 @@ end
 
 function DefeatAnimation:startDefeat(player)
     player.isCameraFollowing = false
-    player.canInput = false
+    player:disableInput()
     local quake = Assets.getSfx("earthquake.ogg")
     quake:setLooping(true)
     quake:play()
