@@ -183,3 +183,9 @@ love.graphics.halfWidth = love.graphics.getWidth()/2
 love.graphics.halfHeight = love.graphics.getHeight()/2
 love.graphics.quarterWidth = love.graphics.getWidth()/4
 love.graphics.quarterHeight = love.graphics.getHeight()/4
+
+
+function randomNum(min, max)
+    
+    return math.random()*(max-min)+min
+end

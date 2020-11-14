@@ -24,6 +24,9 @@ function Player:initialize(map, camera)
     self.canInput = true
     self.isStill = true
     self.isCameraFollowing = true
+
+    self.walkSounds = {Assets.getSfx("walk_1.wav"), Assets.getSfx("walk_2.wav"),
+                        Assets.getSfx("walk_4.ogg"), Assets.getSfx("walk_5.ogg"), Assets.getSfx("walk_6.ogg")}
     self:loopPlay("deer_down")
 
     self.transformCooldown = 1
@@ -59,8 +62,27 @@ function Player:initialize(map, camera)
     self._currentMove = nil
     self.nextMoveHistory = 1
 
+    self.stopWalkSound = false
+
     self:inputCollider(WORLD)
 
+    local this = self
+    self.walkTimer = Timer(Timer.ONE_SHOT, 0.2, function()
+        this:getWalkSound(0.2, 0.5):play()
+    end,
+    function ()
+        return this.stopWalkSound
+    end)
+end
+
+function Player:getWalkSound(pitchRange, volumeRange)
+    local pitch = randomNum(-pitchRange, pitchRange)+1
+    local volume = randomNum(-volumeRange, volumeRange)+0.5
+    local sound = self.walkSounds[math.random(#self.walkSounds)]
+    sound:setPitch(pitch)
+    sound:setVolume(volume)
+
+    return sound
 end
 
 function Player:addToHistory()
@@ -129,6 +151,8 @@ function Player:input(dt)
     local moveX = 0
     local moveY = 0
 
+    self.walkTimer:setActive()
+
     if love.keyboard.wasPressed("w") then
         moveY = -self.speed
         self.currentMovement = "up"
@@ -141,6 +165,8 @@ function Player:input(dt)
     elseif love.keyboard.wasPressed("d") then
         moveX = self.speed
         self.currentMovement = "right"
+    else
+        self.walkTimer:pause()
     end
 
 
@@ -260,6 +286,7 @@ end
 
 function Player:update(dt)
     STI_AnimatedSpriteObject.update(self, dt)
+    self.walkTimer:update(dt)
     self:input(dt)
     if self.isCameraFollowing then
         --self.camera:move(self.x - self.camera.x, self.y - self.camera.y)

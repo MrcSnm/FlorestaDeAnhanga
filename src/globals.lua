@@ -32,6 +32,17 @@ TIMED_SPEECH =
     {15, "Este foi o melhor que pude fazer de verdade? Talvez, este seja o limite, o amanhecer do fim..."}
 }
 
+function global_pushTimedSpeech(clock, player)
+
+    for i,  v in ipairs(TIMED_SPEECH) do
+        gEventManager:pushEvent(Event("Aviso"..tostring(i), function ()
+            return clock.currentTime >= TIMED_SPEECH[i][1]
+        end, function ()
+            player:think(TIMED_SPEECH[i][2])
+        end))
+    end
+end
+
 function global_InitialSpeech(anhanga)
 
     anhanga.canInput = false

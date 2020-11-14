@@ -6,7 +6,7 @@ local CHOICES =
     SAIR = 2
 }
 
-function Menu:initialize()
+function Menu:initialize(currentMusic)
 
     self.mainSprite = Sprite()
     self.mainSprite.currentTexture = Assets.getSprite("Titulor.png")
@@ -24,8 +24,7 @@ function Menu:initialize()
     self.iniciar.currentTexture = Assets.getSprite("iniciar.png")
     self.iniciar.x = 100
     self.iniciar.y = love.graphics.getHeight()- 150
-
-
+    self.currentMusic = currentMusic
     self:alternateChoice(self.currentSelected)
 
 end
@@ -49,6 +48,7 @@ function Menu:checkSelected()
     elseif love.keyboard.wasJustPressed("return") then
         Assets.getSfx("confirm.wav"):play()
         if self.currentSelected == CHOICES.INICIAR then
+            self.currentMusic:stop()
             gStateMachine:change("main")
         else
             ACT:pushAction(ActionSequence({

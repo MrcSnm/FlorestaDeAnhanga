@@ -49,11 +49,7 @@ function MainState:enter()
         end)
     }))
 
-    gEventManager:pushEvent(Event("Checker", function ()
-        return player.x > 500
-    end, function (elapsed)
-        CLOCK_INTERFACE.defeatAnimation:startDefeat(player)
-    end))
+    global_pushTimedSpeech(CLOCK_INTERFACE, player)
 
 end
 
