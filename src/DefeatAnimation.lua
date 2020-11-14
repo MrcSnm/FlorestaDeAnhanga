@@ -18,6 +18,9 @@ end
 function DefeatAnimation:startDefeat(player)
     player.isCameraFollowing = false
     player.canInput = false
+    local quake = Assets.getSfx("earthquake.ogg")
+    quake:setLooping(true)
+    quake:play()
     ACT:pushAction(ActionSequence({
 
         ActionSpawn({
@@ -32,7 +35,13 @@ function DefeatAnimation:startDefeat(player)
         ActionSpawn({
             ActionTintTo(2, {r=0,g=0,b=0,a=1}, self),
             ActionShake(2, 15, self.camera)
-        })
+        }),
+        ActionCallback(function()
+            quake:stop()
+            NATURE:stop()
+            AMBIENCE:stop()
+            gStateMachine:change("menu")
+        end)
     }))
 end
 
