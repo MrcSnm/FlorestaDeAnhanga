@@ -26,7 +26,8 @@ function ActionTintBy:initialize(dur, targetColor, target)
     end)
 end
 
-
+--- Target must implement function setColor, and it must have _color which must have the parameters r,g,b
+-- And .opacity
 ActionTintTo = Class("ActionTintTo", Action)
 
 
@@ -40,17 +41,17 @@ function ActionTintTo:initialize(dur, targetColor, target)
     local this = self
     Action.initialize(self, dur, function(progress)
 
-        target:setColor((1-progress)*target._color.r+(targetColor.r*progress),
-                        (1-progress)*target._color.g+(targetColor.g*progress),
-                        (1-progress)*target._color.b+(targetColor.b*progress),
-                        (1-progress)*target.opacity +(targetColor.a*progress))
+        target:setColor((1-progress)*self.initialR+(targetColor.r*progress),
+                        (1-progress)*self.initialG+(targetColor.g*progress),
+                        (1-progress)*self.initialB+(targetColor.b*progress),
+                        (1-progress)*self.initialA+(targetColor.a*progress))
     end)
 
     self.onStart = function()
         this.initialR = target._color.r
         this.initialG = target._color.g
         this.initialB = target._color.b
-        this.initialA = target._color.a
+        this.initialA = target.opacity
     end
 
 end

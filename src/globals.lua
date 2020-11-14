@@ -66,8 +66,6 @@ function global_init()
     math.randomseed(os.time())
     ACT = ActionManager()
 
-
-
 end
 
 function global_StartTalkiesTheme()

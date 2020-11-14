@@ -1,6 +1,6 @@
 MainState = Class("MainState", State)
 
-
+local defeatAnimation
 function MainState:enter()
     WORLD = bump.newWorld()
     GAME_MAP = sti(GAME_MAP_NAME, {"bump"})
@@ -15,7 +15,9 @@ function MainState:enter()
     CAMERA:lookAt(player.x, player.y)
 
     LIGHTING_SHADER = DayNightLightShader(CAMERA, GAME_MAP)
-    CLOCK_INTERFACE = Interface(LIGHTING_SHADER.daynight)
+    defeatAnimation = DefeatAnimation(CAMERA)
+    CLOCK_INTERFACE = Interface(LIGHTING_SHADER.daynight, defeatAnimation, player)
+
 
 
     ANIMAL_SPAWNER = AnimalSpawner(GAME_MAP, CLOCK_INTERFACE)

@@ -34,6 +34,7 @@ require "shared.tweening.mov_actions"
 require "shared.tweening.tint_actions"
 require "shared.tweening.ActionCallback"
 require "shared.tweening.ActionDelay"
+require "shared.tweening.ActionShake"
 
 --Hump
 require "shared.hump.camera_extra"
@@ -69,6 +70,7 @@ require "src.shaders.DayNightLightShader"
 
 require "src.Interface"
 require "src.Menu"
+require "src.DefeatAnimation"
 
 require "src.states.MainState"
 require "src.states.MenuState"

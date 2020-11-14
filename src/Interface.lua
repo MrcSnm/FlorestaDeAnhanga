@@ -1,6 +1,6 @@
 Interface = Class("Interface", Sprite)
 
-function Interface:initialize(timeContainer)
+function Interface:initialize(timeContainer, defeatAnimation, player)
 
     Sprite.initialize(self)
     self.timeContainer = timeContainer
@@ -20,6 +20,9 @@ function Interface:initialize(timeContainer)
     self.gameOverTime = 15
     self.secPerHour = 20
     self.maxAnimals = 0
+    self.defeatAnimation = defeatAnimation
+    self.player = player
+    self.hasStartedDefeat = false
 end
 
 
@@ -28,12 +31,20 @@ function Interface:addAnimal(animalType)
         self.animalsSaved[animalType.animalType] = 0
     end
     self.animalsSaved[animalType.animalType] = self.animalsSaved[animalType.animalType]+1
-    print(animalType.animalType)
 end
 
 
 function Interface:updateClock(dt)
+    if self.hasStartedDefeat then
+        return
+    end
     self.currentTime = self.timeContainer.time
+    self.currentTime = 15
+
+    if self.currentTime >= 15 then
+        self.defeatAnimation:startDefeat(self.player)
+        self.hasStartedDefeat = true
+    end
 end
 
 
@@ -114,4 +125,5 @@ function Interface:draw()
     love.graphics.setFont(GAME_INTERFACE_FONT)
     love.graphics.print(tostring(self:getAnimalsSavedCount()).."/"..tostring(self.maxAnimals),
                         self.animalSprite.x + self.animalSprite:getWidth()*1.5, 15)
+    self.defeatAnimation:draw()
 end
