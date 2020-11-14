@@ -39,7 +39,7 @@ function Interface:updateClock(dt)
         return
     end
     self.currentTime = self.timeContainer.time
-    self.currentTime = 15
+    -- self.currentTime = 15
 
     if self.currentTime >= 15 then
         self.defeatAnimation:startDefeat(self.player)

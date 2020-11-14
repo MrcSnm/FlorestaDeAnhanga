@@ -4,6 +4,8 @@ GAME_MAP_NAME = "assets/maps/main_map.lua"
 
 CAVE =  nil
 player = nil
+
+FADER = nil
 ANIMALS_SAVED = 0
 GAME_INTERFACE_FONT = Assets.getFont("manaspc.ttf", 32)
 TALKIES_FONT = Assets.getFont("manaspc.ttf", 24)
@@ -20,6 +22,14 @@ SPEECH =
     {".--.--."}, --7
     {"Acredito que meu tempo se limite a esta noite."}, --8
     {"Devo terminar antes do amanhecer, sinto uma onda intensa chegando"} --9
+}
+
+TIMED_SPEECH =
+{
+    {5, "Boa parte desta noite esgotou, devo me apressar..."},
+    {10, "A abertura da madrugada...-- A pressa se instaura..."},
+    {14, "Sinto que o fim se aproxima, o que eu deveria fazer?"},
+    {15, "Este foi o melhor que pude fazer de verdade? Talvez, este seja o limite, o amanhecer do fim..."}
 }
 
 function global_InitialSpeech(anhanga)
@@ -66,6 +76,8 @@ function global_init()
     math.randomseed(os.time())
     ACT = ActionManager()
 
+    FADER = Fader()
+
 end
 
 function global_StartTalkiesTheme()
@@ -111,6 +123,6 @@ end
 
 
 function global_draw_overlay()
-
+    FADER:draw()
     Talkies.draw()
 end

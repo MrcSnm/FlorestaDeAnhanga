@@ -10,6 +10,8 @@ function love.load()
         ["main"] = MainState
     }
 
+    gEventManager = EventManager()
+
     gStateMachine:change("menu")
     
 
@@ -51,6 +53,7 @@ end
 
 function love.update(dt)
     gStateMachine:update(dt)
+    gEventManager:poll(dt)
     global_update(dt)
 end
 
@@ -62,4 +65,6 @@ end
 
 function love.draw()
     gStateMachine:render()
+    global_draw_overlay()
+
 end

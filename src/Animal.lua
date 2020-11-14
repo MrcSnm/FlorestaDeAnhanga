@@ -262,26 +262,28 @@ function Animal:moveTo(tileX, tileY)
     elseif(math.abs(diffX) > math.abs(diffY)) then
         if diffX > 0 then
             x = x - offset
+            self.currentMovement = "right"
             table.insert(movements, ActionCallback(function()
-                self.currentMovement = "right"
+                this:loopPlay("right")
             end))
         else
             x = x + offset
+            self.currentMovement = "left"
             table.insert(movements, ActionCallback(function()
-                self.currentMovement = "left"
+                this:loopPlay("left")
             end))
         end
     elseif(math.abs(diffX) < math.abs(diffY)) then
         if diffY > 0 then
             y = y - offset
+            self.currentMovement = "down"
             table.insert(movements, ActionCallback(function()
-                self.currentMovement = "down"
                 this:loopPlay("down")
             end))
         else
             y = y + offset
+            self.currentMovement = "up"
             table.insert(movements, ActionCallback(function()
-                self.currentMovement = "up"
                 this:loopPlay("up")
             end))
         end

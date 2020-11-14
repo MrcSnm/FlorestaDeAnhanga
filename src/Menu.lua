@@ -24,9 +24,12 @@ function Menu:initialize()
     self.iniciar.currentTexture = Assets.getSprite("iniciar.png")
     self.iniciar.x = 100
     self.iniciar.y = love.graphics.getHeight()- 150
+
+
     self:alternateChoice(self.currentSelected)
 
 end
+
 
 function Menu:alternateChoice(choice)
     if choice == CHOICES.INICIAR then

@@ -27,6 +27,11 @@ function DefeatAnimation:startDefeat(player)
         ActionSpawn({
             ActionTintTo(2, {r=0,g=0,b=0,a=0}, self),
             ActionShake(2, 15, self.camera)
+        }),
+
+        ActionSpawn({
+            ActionTintTo(2, {r=0,g=0,b=0,a=1}, self),
+            ActionShake(2, 15, self.camera)
         })
     }))
 end

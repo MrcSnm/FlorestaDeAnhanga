@@ -49,6 +49,12 @@ function MainState:enter()
         end)
     }))
 
+    gEventManager:pushEvent(Event("Checker", function ()
+        return player.x > 500
+    end, function (elapsed)
+        CLOCK_INTERFACE.defeatAnimation:startDefeat(player)
+    end))
+
 end
 
 function MainState:update(dt)
@@ -104,6 +110,5 @@ function MainState:render()
     end)
         -- hump_x_sti_showCamBounds(CAMERA, GAME_MAP)
 
-    global_draw_overlay()
     CLOCK_INTERFACE:draw()
 end

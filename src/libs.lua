@@ -35,6 +35,7 @@ require "shared.tweening.tint_actions"
 require "shared.tweening.ActionCallback"
 require "shared.tweening.ActionDelay"
 require "shared.tweening.ActionShake"
+require "shared.tweening.Fader"
 
 --Hump
 require "shared.hump.camera_extra"
@@ -53,6 +54,9 @@ push = require "shared.push"
 
 require "shared.state.State"
 require "shared.state.StateMachine"
+
+require "shared.event.Event"
+require "shared.event.EventManager"
 --  require "shared.slam"
 
 
