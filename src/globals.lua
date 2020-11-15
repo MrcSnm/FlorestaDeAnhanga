@@ -1,6 +1,7 @@
 --Map Related
 GAME_MAP = nil
 GAME_MAP_NAME = "assets/maps/main_map.lua"
+IS_ON_MENU = false
 
 CAVE =  nil
 player = nil
@@ -60,6 +61,28 @@ function global_pushAchievements(animals)
             player:think(v[2])
         end))
     end
+end
+
+function global_Tutorial()
+    Talkies.say("", [[
+        Teclas:
+        W > Mover para cima
+        A > Mover para esquerda
+        S > Mover para baixo
+        D > Mover para direita
+        Enter > Interagir com animais e com a caverna
+        ESC > Pausar/sair
+    ]])
+    Talkies.say("", [[
+        Traga a maior quantia de animais para a caverna enquanto o amanhecer for o futuro
+    ]], {oncomplete = function ()
+        ACT:pushAction(ActionSequence({
+            ActionTintTo(0.5, {r=0,g=0,b=0,a=0}, FADER),
+            ActionCallback(function ()
+                global_InitialSpeech(player)
+            end)
+        }))
+    end})
 end
 
 function global_InitialSpeech(anhanga)

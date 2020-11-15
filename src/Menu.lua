@@ -11,6 +11,8 @@ function Menu:initialize(currentMusic)
     self.mainSprite = Sprite()
     self.mainSprite.currentTexture = Assets.getSprite("Titulor.png")
 
+    self.mainSprite:setScale(love.graphics.getWidth()/800, love.graphics.getHeight()/600)
+
     self.options = {}
     self.currentSelected = CHOICES.INICIAR
 
@@ -51,6 +53,7 @@ function Menu:checkSelected()
         Assets.getSfx("confirm.wav"):play()
         if self.currentSelected == CHOICES.INICIAR then
             self.currentMusic:stop()
+            IS_ON_MENU = false
             gStateMachine:change("main")
         else
             ACT:pushAction(ActionSequence({
@@ -68,6 +71,7 @@ end
 
 
 function Menu:draw()
+
     self.mainSprite:draw()
     self.sair:draw()
     self.iniciar:draw()

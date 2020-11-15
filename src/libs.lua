@@ -75,6 +75,8 @@ require "src.shaders.DayNightLightShader"
 require "src.Interface"
 require "src.Menu"
 require "src.DefeatAnimation"
+require "src.ExitOverlay"
 
+--States
 require "src.states.MainState"
 require "src.states.MenuState"

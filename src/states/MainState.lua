@@ -42,10 +42,12 @@ function MainState:enter()
 
     CAMERA:zoom(2)
 
+    FADER:setColor(0,0,0,1)
+    
     ACT:pushAction(ActionSequence({
         ActionDelay(0.5),
         ActionCallback(function()
-        global_InitialSpeech(player)
+        global_Tutorial()
         end)
     }))
 

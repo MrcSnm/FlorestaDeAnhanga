@@ -11,6 +11,9 @@ function love.load()
     }
 
     gEventManager = EventManager()
+    EXIT_OVERLAY = ExitOverlay()
+
+    love.mouse.setVisible(false)
 
     gStateMachine:change("menu")
     
@@ -52,7 +55,12 @@ end
 
 
 function love.update(dt)
-    gStateMachine:update(dt)
+    if not EXIT_OVERLAY.isActive then
+        gStateMachine:update(dt)
+    end
+    if not IS_ON_MENU then
+        EXIT_OVERLAY:update(dt)
+    end
     gEventManager:poll(dt)
     global_update(dt)
 end
@@ -66,5 +74,6 @@ end
 function love.draw()
     gStateMachine:render()
     global_draw_overlay()
+    EXIT_OVERLAY:draw()
 
 end
