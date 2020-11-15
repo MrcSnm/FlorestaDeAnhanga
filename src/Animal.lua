@@ -106,19 +106,19 @@ function Animal:enterCave()
         ActionCallback(function()
             this.isStill = false
             this:reset()
-            if CAVE.x-lg.quarterWidth*1.125 > self.x then
+            if CAVE.x-lg.quarterWidth*1.06 > self.x then
                 self.currentMovement = "right"
             else
                 self.currentMovement = "left"
             end
         end),
-        MoveToAction(1, CAVE.x-lg.quarterWidth*1.125, self.y, self),
+        MoveToAction(1, CAVE.x-lg.quarterWidth*1.06, self.y, self),
         ActionCallback(function()
             this.isStill = false
             self.currentMovement = "up"
         end),
         ActionSpawn({
-            MoveToAction(1, CAVE.x-lg.quarterWidth*1.125, CAVE.y-lg.quarterHeight*1.4, self),
+            MoveToAction(1, CAVE.x-lg.quarterWidth*1.06, CAVE.y-lg.quarterHeight*1.3, self),
             ActionSequence({
                 ActionDelay(0.75),
                 ActionTintTo(0.25, {r=1, g=1,b=1,a=0}, self)
