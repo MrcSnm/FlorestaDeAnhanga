@@ -150,7 +150,7 @@ function Player:disableInput()
 end
 
 function Player:input(dt)
-    if not self.canInput then
+    if not self.canInput or Talkies.isOpen() then
         return
     end
     local moveX = 0
@@ -246,7 +246,7 @@ function Player:interaction(spawner)
     if rectIntersectsRect(next, rec) or rectIntersectsRect(current, rec) then
         if(#self.followingAnimals > 0) then
             local this = self
-            self.canInput = false
+            self:disableInput()
             ACT:pushAction(ActionSequence({
                 self.followingAnimals[1]:enterCave(),
                 ActionCallback(function ()
@@ -291,6 +291,10 @@ end
 
 function Player:update(dt)
     STI_AnimatedSpriteObject.update(self, dt)
+
+    if not self.canInput then
+        self.walkTimer:pause()
+    end
     self.walkTimer:update(dt)
     self:input(dt)
     if self.isCameraFollowing then

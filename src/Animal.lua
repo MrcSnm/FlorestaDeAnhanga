@@ -1,7 +1,7 @@
 Animal = Class("Animal", AnimatedSprite)
 local lg = love.graphics
 
-local function createAnimalType(animalType, columns_anim,  rows_anim, columns_types, rows_types, width, height, movespeed, scale)
+local function createAnimalType(animalType, columns_anim,  rows_anim, columns_types, rows_types, width, height, movespeed, scale, sound)
     local ret = {}
     ret.animalType = animalType
     ret.texture = Assets.getSprite(animalType..".png")
@@ -14,6 +14,7 @@ local function createAnimalType(animalType, columns_anim,  rows_anim, columns_ty
 
     ret.movespeed = movespeed
     ret.frames = {}
+    ret.sound = sound
 
 
 
@@ -37,11 +38,11 @@ DIRECTIONS =
 ANIMAL_TYPES = 
 {
     --                                Name     Col, Row, Col, Row, TileW, TileH,  Movespeed
-    ["passaro"] = createAnimalType  ("passaro",   3, 4, 4, 2, 48, 48, 125),
-    ["pintinho"] = createAnimalType ("pintinho",  3, 4, 4, 2, 32, 32, 100),
-    ["rato"] = createAnimalType     ("rato",      3, 4, 4, 2, 48, 48, 150),
-    ["sapo"] = createAnimalType     ("sapo",      3, 4, 4, 2, 48, 48, 75),
-    ["tartaruga"] = createAnimalType("tartaruga", 3, 4, 4, 2, 48, 48, 50, 1)
+    ["passaro"] = createAnimalType  ("passaro",   3, 4, 4, 2, 48, 48, 125, 1, Assets.getSfx("bird_chirp.ogg")),
+    ["pintinho"] = createAnimalType ("pintinho",  3, 4, 4, 2, 32, 32, 100, 1, Assets.getSfx("chick_peep.ogg")),
+    ["rato"] = createAnimalType     ("rato",      3, 4, 4, 2, 48, 48, 150, 1, Assets.getSfx("rat_squeak.ogg")),
+    ["sapo"] = createAnimalType     ("sapo",      3, 4, 4, 2, 48, 48, 75, 1, Assets.getSfx("frog.ogg")),
+    ["tartaruga"] = createAnimalType("tartaruga", 3, 4, 4, 2, 48, 48, 50, 1, Assets.getSfx("turtle.ogg"))
 }
 
 
@@ -124,6 +125,8 @@ function Animal:enterCave()
             })
         }),
         ActionCallback(function ()
+
+            diversifySound(this.animalType.sound, 0.3, 0.4):play()
             LIGHTING_SHADER:removeLightSource(this.lightSource)
             this.interface:addAnimal(this.animalType)
         end)

@@ -21,6 +21,8 @@ function Menu:initialize(currentMusic)
     self.sair.x = love.graphics.getWidth()-self.sair.currentTexture:getWidth() - 100
     self.sair.y = love.graphics.getHeight()- 150
 
+    
+
     self.iniciar.currentTexture = Assets.getSprite("iniciar.png")
     self.iniciar.x = 100
     self.iniciar.y = love.graphics.getHeight()- 150

@@ -52,6 +52,7 @@ function MainState:enter()
     global_pushTimedSpeech(CLOCK_INTERFACE, player)
     global_pushAchievements(CLOCK_INTERFACE)
 
+
 end
 
 function MainState:update(dt)
@@ -85,7 +86,9 @@ function MainState:update(dt)
     -- LIGHTING_SHADER.daynight.time = LIGHTING_SHADER.daynight.time + (1*dt/60)*5
 
     --Game over at time = 15
-    LIGHTING_SHADER.daynight.time = LIGHTING_SHADER.daynight.time + (1*dt/20)
+    if not Talkies.isOpen() then
+        LIGHTING_SHADER.daynight.time = LIGHTING_SHADER.daynight.time + (1*dt/20)
+    end
     CLOCK_INTERFACE:update(dt)
 
     if player.canInput then

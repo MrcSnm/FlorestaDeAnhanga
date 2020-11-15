@@ -186,6 +186,11 @@ love.graphics.quarterHeight = love.graphics.getHeight()/4
 
 
 function randomNum(min, max)
-    
     return math.random()*(max-min)+min
+end
+
+function diversifySound(sound, pitchRange, volRange)
+    sound:setPitch(randomNum(1-pitchRange, 1+pitchRange))
+    sound:setVolume(randomNum(1-volRange, 1))
+    return sound
 end
