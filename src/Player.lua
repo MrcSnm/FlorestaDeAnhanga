@@ -262,18 +262,18 @@ function Player:alternateForm()
     
     local this = self
     self.currentCooldown = 0
-    ACT:pushAction(ActionSequence({
-        ActionTintTo(0.4, {r=0,g=0,b=0,a=0}, self),
-        ActionCallback(function()
-            this.isDeer = not this.isDeer
-            if this.isDeer then
-                this.speed = 250
-            else
-                this.speed = 150
-            end
-        end), 
-        ActionTintTo(0.4, {r=1,g=1,b=1,a=1}, self),
-    }))
+    -- ACT:pushAction(ActionSequence({
+    --     ActionTintTo(0.4, {r=0,g=0,b=0,a=0}, self),
+    --     ActionCallback(function()
+    --         this.isDeer = not this.isDeer
+    --         if this.isDeer then
+    --             this.speed = 250
+    --         else
+    --             this.speed = 150
+    --         end
+    --     end), 
+    --     ActionTintTo(0.4, {r=1,g=1,b=1,a=1}, self),
+    -- }))
     self:reset()
 end
 
